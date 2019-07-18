@@ -48,22 +48,10 @@ spring:
 #      repositories:
 #        enabled: true
 mybatis:
-#  config-location: classpath:mapper-config.xml mapper-config.xml内容可以在这里配置
   mapper-locations: classpath:mapper/*.xml
   configuration:
-#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     lazyLoadingEnabled: false
     cacheEnabled: true
-#    logPrefix: dao.
-logging:
-#  file: my.log
-  path: log/
-  level:
-#    root: debug
-    com.example.demo.dao: debug
-#  pattern: yml配置报错？
-#    console: %d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{56} - %msg%n
-#    file: %d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{56} - %msg%n
 dubbo:
   application:
     name: demo
@@ -73,3 +61,14 @@ server:
   port: 8080
   servlet:
     context-path: /demo
+
+#   默认日志级别为INFO,针对DAO层sql使用debug
+logging:
+  level:
+    com.dc.demo.dao: debug
+log:
+  path: log/
+  base: demo
+  size: 10MB
+  level: info
+  live: 1
