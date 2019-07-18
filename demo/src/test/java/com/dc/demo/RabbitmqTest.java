@@ -26,7 +26,7 @@ public class RabbitmqTest {
     @Test
     public void test() {
 
-        for (int o = 0; o < 500000; o++){
+        for (int o = 0; o < 5000; o++){
             rabbitTemplate.convertAndSend("exchange.direct", "key.01", new User());
             rabbitTemplate.convertAndSend("exchange.fanout", "key.02", new User());
 //            log.info(o + "");

@@ -6,10 +6,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @EnableRabbit
 @SpringBootApplication
-public class Demo01Application {
+public class DubboApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(Demo01Application.class, args);
+        SpringApplication.run(DubboApplication.class, args);
     }
 
 }
