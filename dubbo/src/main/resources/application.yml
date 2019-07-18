@@ -1,0 +1,56 @@
+dubbo:
+  application:
+    name: demo01
+  registry:
+    address: zookeeper://120.79.182.70:2181
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://120.79.182.70:3306/dc
+    username: root
+    password: 123
+    type: com.alibaba.druid.pool.DruidDataSource
+    initialSize: 5
+    minIdle: 5
+    maxActive: 20
+    maxWait: 60000
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: SELECT 1 FROM DUAL
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    maxPoolPreparedStatementPerConnectionSize: 20
+  elasticsearch:
+    jest:
+      uris: http://120.79.182.70:9200
+  rabbitmq:
+    host: 120.79.182.70
+    virtual-host: /
+#  data:
+#    elasticsearch:
+#      cluster-name: elasticsearch
+#      cluster-nodes: 120.79.182.70:9300
+#      repositories:
+#        enabled: true
+mybatis:
+#  config-location: classpath:mapper-config.xml
+  mapper-locations: classpath:mapper/*.xml
+  configuration:
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    lazyLoadingEnabled: false
+    cacheEnabled: true
+#    logPrefix: dao.
+logging:
+#  file: my.log
+  path: log/
+  level:
+#    root: debug
+    com.example.demo.dao: debug
+server:
+  port: 8081
+#  pattern: yml配置报错？
+#    console: %d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{56} - %msg%n
+#    file: %d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{56} - %msg%n

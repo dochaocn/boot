@@ -1,0 +1,8 @@
+/target/
+/log/
+/.idea/
+/.mvn/
+*.iml
+/config/
+mvnw
+mvnw.cmd
