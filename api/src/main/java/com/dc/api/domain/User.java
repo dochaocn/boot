@@ -1,9 +1,10 @@
-package com.dc.demo.domain;
+package com.dc.api.domain;
 
 import lombok.Data;
-//import org.springframework.data.elasticsearch.annotations.Document;
 
 import java.io.Serializable;
+
+//import org.springframework.data.elasticsearch.annotations.Document;
 
 @Data
 //@Document(indexName = "demo", type = "people")

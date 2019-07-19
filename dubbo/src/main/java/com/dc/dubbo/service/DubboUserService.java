@@ -1,8 +1,8 @@
 package com.dc.dubbo.service;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.dc.demo.domain.User;
-import com.dc.demo.service.UserService;
+import com.dc.api.service.UserService;
+import com.dc.api.domain.User;
 import org.springframework.stereotype.Service;
 
 @Service

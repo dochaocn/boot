@@ -1,6 +1,6 @@
 package com.dc.demo;
 
-import com.dc.demo.domain.User;
+import com.dc.api.domain.User;
 import io.searchbox.client.JestClient;
 import io.searchbox.core.Index;
 import io.searchbox.core.Search;

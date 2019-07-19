@@ -1,6 +1,6 @@
 package com.dc.demo;
 
-import com.dc.demo.domain.User;
+import com.dc.api.domain.User;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;

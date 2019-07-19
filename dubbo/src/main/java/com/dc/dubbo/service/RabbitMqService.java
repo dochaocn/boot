@@ -1,6 +1,6 @@
 package com.dc.dubbo.service;
 
-import com.dc.demo.domain.User;
+import com.dc.api.domain.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;

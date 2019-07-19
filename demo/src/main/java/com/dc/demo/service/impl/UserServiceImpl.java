@@ -1,8 +1,8 @@
 package com.dc.demo.service.impl;
 
+import com.dc.api.service.UserService;
 import com.dc.demo.dao.UserDao;
-import com.dc.demo.domain.User;
-import com.dc.demo.service.UserService;
+import com.dc.api.domain.User;
 import com.dc.demo.support.IdSingleton;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

@@ -2,7 +2,7 @@ package com.dc.demo.controller;
 
 import com.dc.demo.dto.PersonMongo;
 import com.dc.demo.support.MyController;
-import com.dc.demo.domain.User;
+import com.dc.api.domain.User;
 import com.dc.demo.service.PersonMongoRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestMapping;

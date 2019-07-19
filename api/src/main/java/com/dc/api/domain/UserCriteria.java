@@ -1,4 +1,4 @@
-package com.dc.demo.domain;
+package com.dc.api.domain;
 
 import java.util.ArrayList;
 import java.util.List;
