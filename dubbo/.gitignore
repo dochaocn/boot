@@ -6,3 +6,7 @@
 /config/
 mvnw
 mvnw.cmd
+.classpath
+.factorypath
+.projec
+/.settings/
