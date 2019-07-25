@@ -1,6 +1,8 @@
 package com.dc.demo;
 
+import cn.hutool.core.date.DateUtil;
 import com.dc.api.domain.User;
+import com.dc.demo.mq.MyConfirmCallback;
 import com.dc.demo.support.IdSingleton;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
@@ -32,15 +34,20 @@ public class RabbitmqTest {
     private RabbitAdmin rabbitAdmin;
 
     @Test
-    public void test() {
+    public void test() throws InterruptedException {
 
-        for (int o = 0; o < 5; o++){
+        for (int o = 0; o < 500; o++){
+            User user = new User();
             CorrelationData correlationData = new CorrelationData();
-            correlationData.setId(IdSingleton.getIntegerId().toString());
+            String id = o + "---" + IdSingleton.getIntegerId().toString();
+            correlationData.setId(id);
 //            rabbitTemplate.convertAndSend("exchange.direct", "key.01", new User(), correlationData);
 //            rabbitTemplate.convertAndSend("exchange.fanout", "key.02", new User());
-            rabbitTemplate.convertAndSend("exchange.topic", "topic", new User(), correlationData);
+            rabbitTemplate.convertAndSend("exchange.topic", "topic", user, correlationData);
+            MyConfirmCallback.addToMap(id, user);
         }
+
+        Thread.sleep(1000);
     }
 
     @Test
