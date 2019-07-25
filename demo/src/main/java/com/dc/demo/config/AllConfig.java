@@ -2,6 +2,9 @@ package com.dc.demo.config;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.dubbo.config.spring.context.annotation.DubboComponentScan;
+import com.dc.demo.mq.MyConfirmCallback;
+import com.dc.demo.mq.MyConnectionListener;
+import com.dc.demo.mq.MyReturnCallback;
 import com.dc.demo.other.MvcInterceptor;
 import com.dc.demo.other.MyConverter;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
@@ -10,9 +13,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import com.mongodb.ServerAddress;
+import com.rabbitmq.client.Method;
+import com.rabbitmq.client.ShutdownSignalException;
+import lombok.extern.slf4j.Slf4j;
 import org.mybatis.spring.annotation.MapperScan;
-import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
+import org.springframework.amqp.rabbit.annotation.RabbitListenerConfigurer;
+import org.springframework.amqp.rabbit.connection.*;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.amqp.rabbit.listener.RabbitListenerContainerFactory;
+import org.springframework.amqp.rabbit.listener.RabbitListenerEndpointRegistrar;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -35,6 +44,7 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import javax.annotation.Resource;
 import javax.sql.DataSource;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +56,10 @@ import java.util.List;
 @MapperScan("com.dc.demo.dao")
 public class AllConfig implements WebMvcConfigurer {
 
+    @Resource
+    private CachingConnectionFactory connectionFactory;
+    @Resource
+    private RabbitTemplate rabbitTemplate;
     /**
      * datasource
      *
@@ -144,19 +158,31 @@ public class AllConfig implements WebMvcConfigurer {
         return new MappingJackson2MessageConverter();
     }
 
-    // 容器中注入链接工厂，spring
     @Bean
-    public CachingConnectionFactory connectionFactory() {
-        CachingConnectionFactory connectionFactory = new CachingConnectionFactory();
-        connectionFactory.setAddresses("120.79.182.70:5672");
-        return connectionFactory;
+    public void rabbitConfig() {
+        // ConnectionListener
+        connectionFactory.addConnectionListener(new MyConnectionListener());
+
+        // confirm
+        rabbitTemplate.setConfirmCallback(new MyConfirmCallback());
+
+        // return
+        rabbitTemplate.setReturnCallback(new MyReturnCallback());
     }
 
-    // 容器中注入rabbitTemplate
-    @Bean
-    public RabbitTemplate rabbitTemplate(CachingConnectionFactory connectionFactory) {
-        return new RabbitTemplate(connectionFactory);
-    }
+//    // 容器中注入链接工厂，spring
+//    @Bean
+//    public CachingConnectionFactory connectionFactory() {
+//        CachingConnectionFactory connectionFactory = new CachingConnectionFactory();
+//        connectionFactory.setAddresses("120.79.182.70:5672");
+//        return connectionFactory;
+//    }
+//
+//    // 容器中注入rabbitTemplate
+//    @Bean
+//    public RabbitTemplate rabbitTemplate(CachingConnectionFactory connectionFactory) {
+//        return new RabbitTemplate(connectionFactory);
+//    }
 
 
     /**

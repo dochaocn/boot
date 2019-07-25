@@ -19,4 +19,9 @@ public class RabbitMqService {
     public void mqListener2(Message message) {
         log.info("queues.02"+message.toString());
     }
+
+    @RabbitListener(queues = "queues.03")
+    public void mqListener3(Message message) {
+        log.info("queues.03"+message.toString());
+    }
 }

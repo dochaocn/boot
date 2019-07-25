@@ -14,9 +14,9 @@ public class Product {
         String exchangeName = "test.exchange";
         String key = "key.01";
 
-
+        // 创建链接工厂,用来创建链接connection
         ConnectionFactory connectionFactory = new ConnectionFactory();
-        connectionFactory.setHost("");
+        connectionFactory.setHost("120.79.182.70");
         connectionFactory.setVirtualHost("/");
         connectionFactory.setPort(5672);
 
