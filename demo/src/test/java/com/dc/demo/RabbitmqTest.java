@@ -1,8 +1,7 @@
 package com.dc.demo;
 
-import cn.hutool.core.date.DateUtil;
 import com.dc.api.domain.User;
-import com.dc.demo.mq.MyConfirmCallback;
+import com.dc.demo.mq.ProductConfirmCallback;
 import com.dc.demo.support.IdSingleton;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
@@ -36,18 +35,19 @@ public class RabbitmqTest {
     @Test
     public void test() throws InterruptedException {
 
-        for (int o = 0; o < 500; o++){
+        for (int o = 0; o < 3; o++){
             User user = new User();
             CorrelationData correlationData = new CorrelationData();
             String id = o + "---" + IdSingleton.getIntegerId().toString();
             correlationData.setId(id);
+            user.setId(o);
 //            rabbitTemplate.convertAndSend("exchange.direct", "key.01", new User(), correlationData);
 //            rabbitTemplate.convertAndSend("exchange.fanout", "key.02", new User());
-            rabbitTemplate.convertAndSend("exchange.topic", "topic", user, correlationData);
-            MyConfirmCallback.addToMap(id, user);
+            rabbitTemplate.convertAndSend("delayExchange", "topic", user, correlationData);
+            ProductConfirmCallback.addToMap(id, user);
         }
 
-        Thread.sleep(1000);
+        Thread.sleep(3000);
     }
 
     @Test
@@ -66,19 +66,23 @@ public class RabbitmqTest {
         rabbitTemplate.convertAndSend(message);
     }
 
+
+    /**
+     * 定义交换机队列绑定,可以@Bean创建
+     */
     @Test
-    public void declare() {
+    public void delayDeclare() {
 
         // 定义交换机
-        Exchange exchange = new TopicExchange("exchange.topic",true,false);
+        Exchange exchange = new TopicExchange("delayExchange",true,false);
         rabbitAdmin.declareExchange(exchange);
         log.info(exchange.toString());
 
         // 定义队列 (延迟队列)
         Map<String,Object> argMap = new HashMap<>();
         argMap.put("x-message-ttl",6000);
-        argMap.put("x-dead-letter-exchange", "exchange.topic1");
-        Queue queue = new Queue("queues.03",true,false,false, argMap);
+        argMap.put("x-dead-letter-exchange", "exchange");
+        Queue queue = new Queue("delayQueues",true,false,false, argMap);
         rabbitAdmin.declareQueue(queue);
         log.info(queue.toString());
 
@@ -89,15 +93,15 @@ public class RabbitmqTest {
     }
 
     @Test
-    public void declare1() {
+    public void declare() {
 
         // 定义交换机
-        Exchange exchange = new TopicExchange("exchange.topic1");
+        Exchange exchange = new TopicExchange("exchange");
         rabbitAdmin.declareExchange(exchange);
         log.info(exchange.toString());
 
         // 定义队列
-        Queue queue = new Queue("queues.04");
+        Queue queue = new Queue("queues");
         rabbitAdmin.declareQueue(queue);
         log.info(queue.toString());
 

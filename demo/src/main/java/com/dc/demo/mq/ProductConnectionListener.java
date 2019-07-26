@@ -7,7 +7,7 @@ import org.springframework.amqp.rabbit.connection.Connection;
 import org.springframework.amqp.rabbit.connection.ConnectionListener;
 
 @Slf4j
-public class MyConnectionListener implements ConnectionListener {
+public class ProductConnectionListener implements ConnectionListener {
 
     @Override
     public void onCreate(Connection connection) {

@@ -32,6 +32,11 @@ spring:
     username: guest
     password: guest
     port: 5672
+    publisher-confirms: true
+    listener:
+      simple:
+        acknowledge-mode: manual
+
 #  data:
 #    elasticsearch:
 #      cluster-name: elasticsearch

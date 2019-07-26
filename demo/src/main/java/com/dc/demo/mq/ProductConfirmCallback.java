@@ -9,7 +9,7 @@ import java.util.Hashtable;
 import java.util.Map;
 
 @Slf4j
-public class MyConfirmCallback implements RabbitTemplate.ConfirmCallback {
+public class ProductConfirmCallback implements RabbitTemplate.ConfirmCallback {
 
     private static final Map<String,Object> confirmMap;
 
