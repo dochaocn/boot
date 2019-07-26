@@ -101,6 +101,7 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -151,8 +152,9 @@
 
     <modules>
         <module>api</module>
-        <module>demo</module>
-        <module>dubbo</module>
+        <module>product</module>
+        <module>consumer</module>
+        <module>shell</module>
     </modules>
 
 </project>

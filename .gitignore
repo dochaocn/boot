@@ -1,8 +1,9 @@
 /.idea/
 *.iml
-/log/
+/logs/
 .classpath
 .factorypath
 .project
 /.settings/
 /.vscode/
+/demo/

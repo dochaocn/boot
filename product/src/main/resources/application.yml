@@ -1,0 +1,75 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://120.79.182.70:3306/dc
+    username: root
+    password: 123456
+    type: com.alibaba.druid.pool.DruidDataSource
+    initialSize: 5
+    minIdle: 5
+    maxActive: 20
+    maxWait: 60000
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: SELECT 1 FROM DUAL
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    maxPoolPreparedStatementPerConnectionSize: 20
+  elasticsearch:
+    jest:
+      uris: http://120.79.182.70:9200
+  rabbitmq:
+    virtual-host: /
+    host: 120.79.182.70
+    username: guest
+    password: guest
+    port: 5672
+    publisher-confirms: true
+  redis:
+    host: 120.79.182.70
+    port: 6379
+  data:
+    mongodb:
+      port: 27017
+      host: 120.79.182.70
+      uri:  mongodb://root:mongo@120.79.182.70/test # 用户名密码需在uri上标出
+      username: root
+      password: mongo
+  thymeleaf:
+    cache: false
+  http:
+    encoding:
+      charset: UTF-8
+#  data:
+#    elasticsearch:
+#      cluster-name: elasticsearch
+#      cluster-nodes: 120.79.182.70:9300
+#      repositories:
+#        enabled: true
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  configuration:
+    lazyLoadingEnabled: false
+    cacheEnabled: true
+dubbo:
+  application:
+    name: product
+  registry:
+    address: zookeeper://120.79.182.70:2181
+server:
+  port: 8080
+  servlet:
+    context-path: /product
+
+#   默认日志级别为INFO,针对DAO层sql使用debug
+logging:
+  level:
+    com.dc.product.dao: debug
+log:
+  path: logs/
+  base: product
+  size: 10MB
+  level: info
+  live: 1
