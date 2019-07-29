@@ -22,7 +22,7 @@ public class SendMqController {
 
     @RequestMapping(value = "send",method = RequestMethod.GET)
     public void send() {
-        for (int o = 0; o < 3; o++){
+        for (int o = 1; o < 30; o++){
             User user = new User();
             CorrelationData correlationData = new CorrelationData();
             String id = o + "---" + IdSingleton.getIntegerId().toString();

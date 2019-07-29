@@ -30,9 +30,10 @@ public class ConsumerMqListener {
     }
 
     @RabbitListener(queues = "queues.02")
-    public void mqListener2(Message message,@Payload User user) {
+    public void mqListener2(Message message,@Payload User user,Channel channel) throws IOException {
         log.info("queues.02,message={}",message.toString());
         log.info("queues.02,user={}",user.toString());
+        channel.basicReject(message.getMessageProperties().getDeliveryTag(),false);
     }
 
     @RabbitListener(queues = "queue")

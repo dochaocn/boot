@@ -1,5 +1,6 @@
 package com.dc.product.config;
 
+import com.dc.product.mq.ProductChannelListener;
 import com.dc.product.mq.ProductConfirmCallback;
 import com.dc.product.mq.ProductConnectionListener;
 import com.dc.product.mq.ProductReturnCallback;
@@ -32,8 +33,9 @@ public class MqConfig {
     @Bean
     public void rabbitConfig() {
         // ConnectionListener
-        connectionFactory.addConnectionListener(connectionListener());
-        connectionFactory.setConnectionNameStrategy(connectionFactory -> "MY_CONNECTION");
+        connectionFactory.addConnectionListener(new ProductConnectionListener());
+        connectionFactory.addChannelListener(new ProductChannelListener());
+        connectionFactory.setConnectionNameStrategy(connectionFactory -> "PRODUCT_CONNECTION");
 
         // confirm
         rabbitTemplate.setConfirmCallback(confirmCallback());
@@ -41,11 +43,6 @@ public class MqConfig {
         rabbitTemplate.setReturnCallback(returnCallback());
         // message converter
         rabbitTemplate.setMessageConverter(messageConverter());
-    }
-
-    @Bean
-    public ConnectionListener connectionListener() {
-        return new ProductConnectionListener();
     }
 
     @Bean
