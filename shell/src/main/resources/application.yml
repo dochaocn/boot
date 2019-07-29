@@ -1,0 +1,6 @@
+log:
+  path: logs/
+  base: shell
+  size: 10MB
+  level: info
+  live: 1
