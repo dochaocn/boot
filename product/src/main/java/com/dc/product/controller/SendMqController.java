@@ -28,6 +28,19 @@ public class SendMqController {
             String id = o + "---" + IdSingleton.getIntegerId().toString();
             correlationData.setId(id);
             user.setId(o);
+
+        /*
+         * exchange 正确,queue 正确,confirm被回调, ack=true
+         * exchange 错误,queue 正确,confirm被回调, ack=false
+         * exchange 正确,queue 错误,confirm被回调, ack=true,return被回调
+         * exchange 错误,queue 错误,confirm被回调, ack=false
+         *
+         * 如果消息没有到exchange,则confirm回调,ack=false
+         * 如果消息到达exchange,则confirm回调,ack=true
+         * exchange到queue成功,则不回调return
+         * exchange到queue失败,则回调return(需设置mandatory=true,否则不回回调,消息就丢了)
+         */
+
             rabbitTemplate.convertAndSend("delayExchange", "topic", user, correlationData);
             ProductConfirmCallback.addToMap(id, user);
         }

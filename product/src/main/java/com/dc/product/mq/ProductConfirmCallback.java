@@ -28,7 +28,12 @@ public class ProductConfirmCallback implements RabbitTemplate.ConfirmCallback {
 
     @Override
     public void confirm(CorrelationData correlationData, boolean ack, String cause) {
-        log.info("confirm message,ack={},cause={}",ack,cause);
+        if (!ack) {
+            log.info("confirm message,false,cause={}",cause);
+            return;
+        }
+
+        log.info("confirm message,ack=true");
         if (correlationData != null)
             removeToMMap(correlationData.getId());
     }

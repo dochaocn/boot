@@ -12,7 +12,7 @@ public class ProductConnectionListener implements ConnectionListener {
     @Override
     public void onCreate(Connection connection) {
         com.rabbitmq.client.Connection delegate = connection.getDelegate();
-        log.info("onCreate");
+        log.info("onCreate,connection={}",connection.toString());
     }
 
     @Override

@@ -27,6 +27,9 @@ spring:
     password: guest
     port: 5672
     publisher-confirms: true
+    publisher-returns: true
+    template:
+      mandatory: true
   redis:
     host: 120.79.182.70
     port: 6379

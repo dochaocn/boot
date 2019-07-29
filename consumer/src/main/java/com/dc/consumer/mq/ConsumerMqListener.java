@@ -4,8 +4,12 @@ import com.dc.api.domain.User;
 import com.rabbitmq.client.Channel;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.Message;
+import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.handler.annotation.Header;
+import org.springframework.messaging.handler.annotation.Headers;
+import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -21,17 +25,19 @@ public class ConsumerMqListener {
     private static Map<Integer,User> map;
 
     @RabbitListener(queues = "queues.01")
-    public void mqListener1(User user) {
+    public void mqListener1(@Payload User user) {
         log.info("queues.01"+user.toString());
     }
 
     @RabbitListener(queues = "queues.02")
-    public void mqListener2(Message message) {
-        log.info("queues.02"+message.toString());
+    public void mqListener2(Message message,@Payload User user) {
+        log.info("queues.02,message={}",message.toString());
+        log.info("queues.02,user={}",user.toString());
     }
 
     @RabbitListener(queues = "queue")
-    public void queue(Message message, Channel channel, User user) {
+    @RabbitHandler
+    public void queue(Message message, Channel channel, @Payload User user) {
         log.info("message={}", message.toString());
         log.info("user={}", user.toString());
 

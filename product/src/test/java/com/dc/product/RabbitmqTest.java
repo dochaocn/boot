@@ -42,7 +42,7 @@ public class RabbitmqTest {
             correlationData.setId(id);
             user.setId(o);
 //            rabbitTemplate.convertAndSend("exchange.direct", "key.01", new User(), correlationData);
-//            rabbitTemplate.convertAndSend("exchange.fanout", "key.02", new User());
+            rabbitTemplate.convertAndSend("exchange.fanout", "key.02", new User());
             rabbitTemplate.convertAndSend("delayExchange", "topic", user, correlationData);
             ProductConfirmCallback.addToMap(id, user);
         }
