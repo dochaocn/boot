@@ -5,3 +5,5 @@ product：    dubbo服务提供方；rabbitmq消息发送端
 consumer：   dubbo服务消费方；rabbitmq消息消费端
 shell：  spring shell学习
 cloud：  
+      eureka + feign
+      
