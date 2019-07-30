@@ -1,5 +1,6 @@
 package com.dc.consumer;
 
+import com.dc.api.support.IdSingleton;
 import com.dc.consumer.service.DubboUserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,5 +21,11 @@ public class Demo01ApplicationTests {
         dubboUserService.hello();
     }
 
+    @Test
+    public void setRabbitTemplate() {
+        for (int i = 0;i < 10;i++) {
+            System.out.println(IdSingleton.getIntegerId());
+        }
+    }
 }
 

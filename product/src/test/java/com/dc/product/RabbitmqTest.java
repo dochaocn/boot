@@ -2,7 +2,7 @@ package com.dc.product;
 
 import com.dc.api.domain.User;
 import com.dc.product.mq.ProductConfirmCallback;
-import com.dc.product.support.IdSingleton;
+import com.dc.api.support.IdSingleton;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;

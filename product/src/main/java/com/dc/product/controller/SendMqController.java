@@ -1,13 +1,12 @@
 package com.dc.product.controller;
 
 import com.dc.api.domain.User;
+import com.dc.api.support.IdSingleton;
 import com.dc.product.mq.ProductConfirmCallback;
-import com.dc.product.support.IdSingleton;
-import com.dc.product.support.MyController;
+import com.dc.api.support.MyController;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 

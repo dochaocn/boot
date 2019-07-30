@@ -1,7 +1,7 @@
 package com.dc.product.controller;
 
 import com.dc.product.dto.PersonMongo;
-import com.dc.product.support.MyController;
+import com.dc.api.support.MyController;
 import com.dc.api.domain.User;
 import com.dc.product.service.PersonMongoRepository;
 import lombok.extern.slf4j.Slf4j;
