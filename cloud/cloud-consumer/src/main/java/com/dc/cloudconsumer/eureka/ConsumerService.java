@@ -1,14 +1,14 @@
 package com.dc.cloudconsumer.eureka;
 
+import com.dc.api.support.CloudComponent;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.client.serviceregistry.Registration;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 
 @Slf4j
-@RestController
+@CloudComponent(mapping = "/consumer")
 public class ConsumerService {
 
     @Resource
