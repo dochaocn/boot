@@ -26,6 +26,7 @@
         <module>cloud-product</module>
         <module>cloud-consumer</module>
         <module>cloud-server</module>
+        <module>cloud-config</module>
     </modules>
 
 </project>
