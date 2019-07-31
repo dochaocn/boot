@@ -10,9 +10,13 @@ import org.springframework.web.bind.annotation.GetMapping;
  *  方法名与具体调用方法无关联
  */
 
-@FeignClient("client-2")
+@FeignClient(value = "${feign.server.name}")
 public interface FeignService {
 
     @GetMapping("/provider/getString")
     String getString();
+
+    @GetMapping("/provider/back")
+    String back();
+
 }

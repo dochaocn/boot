@@ -13,4 +13,11 @@ public class ProviderService {
         log.info("providerService");
         return "i am a provider";
     }
+
+    @RequestMapping(value = "/back")
+    public String back(){
+        log.info("back");
+        int i = 1 / 0;
+        return "i am a provider";
+    }
 }

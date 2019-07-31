@@ -1,18 +1,18 @@
 package com.dc.cloudconsumer.eureka;
 
 import com.dc.api.support.CloudComponent;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.client.serviceregistry.Registration;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.annotation.Resource;
+import java.util.concurrent.ExecutionException;
 
 @Slf4j
 @CloudComponent(mapping = "/consumer")
 public class ConsumerService {
 
-    @Resource
-    private Registration registration;
     @Resource
     private FeignService feignService;
 
@@ -23,9 +23,22 @@ public class ConsumerService {
     }
 
     @RequestMapping(value = "/feign")
+    @HystrixCommand(fallbackMethod = "errorFallBack")
     public String feign(){
-        log.info("feign,id={}",registration.getInstanceId());
+        log.info("feign");
         return feignService.getString();
+    }
+
+    @RequestMapping(value = "/fall")
+    @HystrixCommand(fallbackMethod = "errorFallBack")
+    public String fallBack(){
+        log.info("fallBack");
+        return feignService.back();
+    }
+
+    public String errorFallBack(){
+        log.info("errorFallBack");
+        return "error";
     }
 
 }
