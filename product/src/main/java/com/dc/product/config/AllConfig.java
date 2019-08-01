@@ -37,7 +37,7 @@ import java.util.List;
 
 @Configuration
 @EnableTransactionManagement
-@ComponentScan({"com.dc.product.service", "com.dc.product.batch", "com.dc.product.controller"})
+@ComponentScan({"com.dc.product.service", "com.dc.product.controller"})
 @DubboComponentScan("com.dc.product.service")
 @MapperScan("com.dc.product.dao")
 public class AllConfig implements WebMvcConfigurer {

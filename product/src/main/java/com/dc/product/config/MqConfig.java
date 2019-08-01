@@ -7,8 +7,10 @@ import com.dc.product.mq.ProductReturnCallback;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionListener;
+import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.amqp.support.converter.MessageConverter;
@@ -20,10 +22,10 @@ import java.util.Map;
 @Configuration
 public class MqConfig {
 
-    @Resource
+    @Resource(name = "connectionFactory")
     private CachingConnectionFactory connectionFactory;
-    @Resource
-    private RabbitTemplate rabbitTemplate;
+    @Resource(name = "rabbitAdmin")
+    private RabbitAdmin rabbitAdmin;
 
     @Bean
     public MessageConverter messageConverter() {
@@ -37,6 +39,7 @@ public class MqConfig {
         connectionFactory.addChannelListener(new ProductChannelListener());
         connectionFactory.setConnectionNameStrategy(connectionFactory -> "PRODUCT_CONNECTION");
 
+        RabbitTemplate rabbitTemplate = rabbitAdmin.getRabbitTemplate();
         // confirm
         rabbitTemplate.setConfirmCallback(confirmCallback());
         // return

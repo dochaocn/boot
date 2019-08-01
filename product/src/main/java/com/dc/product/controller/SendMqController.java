@@ -6,18 +6,27 @@ import com.dc.product.mq.ProductConfirmCallback;
 import com.dc.api.support.MyController;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.connection.CorrelationData;
+import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
 @MyController(mapping = "/mq/", name = "sendMqController")
 @Slf4j
 public class SendMqController {
 
-    @Resource
+    @Resource(name = "rabbitAdmin")
+    private RabbitAdmin rabbitAdmin;
+
     private RabbitTemplate rabbitTemplate;
+
+    @PostConstruct
+    public void setRabbitTemplate() {
+        this.rabbitTemplate = rabbitAdmin.getRabbitTemplate();
+    }
 
     @RequestMapping(value = "send",method = RequestMethod.GET)
     public void send() {
