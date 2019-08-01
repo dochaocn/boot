@@ -1,5 +1,6 @@
 package com.dc.cloudconsumer;
 
+import com.dc.api.support.CloudComponent;
 import com.netflix.hystrix.contrib.metrics.eventstream.HystrixMetricsStreamServlet;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -14,6 +15,7 @@ import org.springframework.context.annotation.Bean;
 @EnableDiscoveryClient  // 注册
 @EnableCircuitBreaker   // 断路器
 @EnableHystrixDashboard // 监控
+@CloudComponent
 @SpringBootApplication
 public class CloudConsumerApplication {
 
