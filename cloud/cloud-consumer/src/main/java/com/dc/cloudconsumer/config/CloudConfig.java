@@ -9,12 +9,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 @CloudComponent(mapping = "config")
 public class CloudConfig {
 
-    @Value("${feign.server.name}")
-    private String feignServerName;
+    @Value("${server.config}")
+    private String config;
 
     @GetMapping("/from")
     public String returnFormValue(){
-        return feignServerName;
+        return config;
     }
 
 }
