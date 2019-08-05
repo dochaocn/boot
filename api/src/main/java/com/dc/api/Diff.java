@@ -3,10 +3,7 @@ package com.dc.api;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.CountDownLatch;
 
 @Slf4j
@@ -20,11 +17,47 @@ public class Diff {
         String outPath = "C://Users/Dc/Desktop/0711/diff.txt";
         List<String> listPro = new ArrayList<>();
         List<String> listNew = new ArrayList<>();
+        Map<String,List<String>> diffMap = new HashMap<>();
+
         readFile(listPro,listNew,proPath,newPath);
         listPro.removeAll(listNew);
-        writeFile(listPro,outPath);
+        toDiffMap(listPro,listNew,diffMap);
+        writeFile(diffMap,outPath);
 
         log.info("耗时={}",System.currentTimeMillis() - millis);
+    }
+
+    private static void toDiffMap(List<String> listPro, List<String> listNew,Map<String,List<String>> diffMap) {
+        List<String> diffList;
+        String accountNo;
+        for (String linePro:listPro) {
+            diffList = new ArrayList<>(2);
+            accountNo = linePro.substring(22,48);
+            for (String lineNew:listNew) {
+                if (accountNo.equals(lineNew.substring(22,48))) {
+                    diffList.add(linePro);
+                    diffList.add(lineNew);
+                    break;
+                }
+            }
+            diffMap.put(accountNo,diffList);
+        }
+    }
+
+    private static void writeFile(Map<String,List<String>> diffMap,String outPath) throws IOException {
+
+        BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(outPath));
+        String flag;
+        for (String accountNo:diffMap.keySet()) {
+            List<String> accList = diffMap.get(accountNo);
+            flag = "P ";
+            for (String line:accList) {
+                outputStream.write((flag+line+"\n").getBytes());
+                flag = "C ";
+            }
+            outputStream.write("\n".getBytes());
+        }
+        outputStream.close();
     }
 
     private static void writeFile(List<String> listDiff,String outPath) throws IOException {
@@ -33,7 +66,7 @@ public class Diff {
         for (String line:listDiff) {
 //            String status = line.substring(254, 255);
 //            if ("N".equals(status) || "*".equals(status) || "C".equals(status))
-                outputStream.write((line.substring(22,48)+"\n").getBytes());
+            outputStream.write((line.substring(22,48)+"\n").getBytes());
         }
         outputStream.close();
     }
