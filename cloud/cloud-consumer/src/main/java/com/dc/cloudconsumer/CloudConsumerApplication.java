@@ -12,15 +12,14 @@ import org.springframework.cloud.netflix.hystrix.dashboard.EnableHystrixDashboar
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.FilterType;
 
-@ComponentScan(excludeFilters = {
-        @ComponentScan.Filter(classes = FeignConfiguration.class)})
 @EnableFeignClients     // 远程调用
 @EnableDiscoveryClient  // 注册
 @EnableCircuitBreaker   // 断路器
 @EnableHystrixDashboard // 监控
 @CloudComponent
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = {"com.dc.cloudconsumer.config","com.dc.cloudconsumer.eureka"})
 public class CloudConsumerApplication {
 
     public static void main(String[] args) {
