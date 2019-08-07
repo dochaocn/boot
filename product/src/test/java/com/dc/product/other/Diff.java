@@ -1,20 +1,22 @@
-package com.dc.api;
+package com.dc.product.other;
 
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.*;
-import java.util.*;
-import java.util.concurrent.CountDownLatch;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Slf4j
 public class Diff {
 
-    public static void main(String[] args) throws InterruptedException, IOException {
+    public static void main(String[] files) throws IOException {
         long millis = System.currentTimeMillis();
 
-        String proPath = "C://Users/Dc/Desktop/0711/T10151920H00012019070221000.txt";
-        String newPath = "C://Users/Dc/Desktop/0711/N10151920H00012019070241000.txt";
-        String outPath = "C://Users/Dc/Desktop/0711/diff.txt";
+        String proPath = "C://Users/Dc/Desktop/diff/" + files[0];
+        String newPath = "C://Users/Dc/Desktop/diff/" + files[1];
+        String outPath = "C://Users/Dc/Desktop/diff/diff.txt";
         List<String> listPro = new ArrayList<>();
         List<String> listNew = new ArrayList<>();
         Map<String,List<String>> diffMap = new HashMap<>();
