@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
  *      Encoder     编码器 SpringEncoder
  *      Contract    契约  SpringMvcContract
  *      logger      日志  Slf4jLogger
+ * 注解的configuration属性只对当前类生效,对应Configuration类不要放到包扫描下,否则为全局生效
  */
 @FeignClient(value = "${feign.server.name}",configuration = FeignConfiguration.class)
 public interface FeignService {

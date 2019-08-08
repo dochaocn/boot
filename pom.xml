@@ -163,6 +163,7 @@
         <module>consumer</module>
         <module>shell</module>
         <module>cloud</module>
+        <module>thread</module>
     </modules>
 
 </project>

@@ -3,11 +3,9 @@ package com.dc.cloudconsumer.eureka;
 import com.dc.api.support.CloudComponent;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.cloud.client.serviceregistry.Registration;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.annotation.Resource;
-import java.util.concurrent.ExecutionException;
 
 @Slf4j
 @CloudComponent(mapping = "/consumer")
@@ -36,9 +34,24 @@ public class ConsumerService {
         return feignService.back();
     }
 
+    /**
+     * 服务降级，熔断，回调方法
+     */
     public String errorFallBack(){
         log.info("errorFallBack");
         return "error";
     }
 
+    /**
+     * 为测试@FeignClient中configuration属性
+     */
+    @Resource
+    private FeignServiceOther feignServiceOther;
+
+    @RequestMapping(value = "/feign1")
+    @HystrixCommand(fallbackMethod = "errorFallBack")
+    public String feign1(){
+        log.info("feign1");
+        return feignServiceOther.getString();
+    }
 }
