@@ -15,7 +15,7 @@ public class Diff {
         long millis = System.currentTimeMillis();
 
         String proPath = "C://Users/Dc/Desktop/diff/" + "T10151920H00012019070221000.txt";
-        String newPath = "C://Users/Dc/Desktop/diff/" + "N10151920H00012019070281000.txt";
+        String newPath = "C://Users/Dc/Desktop/diff/" + "N10151920H00012019070301000.txt";
         String outPath = "C://Users/Dc/Desktop/diff/diff.txt";
         List<String> listPro = new ArrayList<>();
         List<String> listNew = new ArrayList<>();
@@ -37,6 +37,10 @@ public class Diff {
             accountNo = linePro.substring(22,48);
             for (String lineNew:listNew) {
                 if (accountNo.equals(lineNew.substring(22,48))) {
+                    if (lineNew.contains("B"))
+                        break;
+//                    if (!lineNew.substring(254, 255).matches("^\\d+$"))
+//                        break;
                     diffList.add(linePro);
                     diffList.add(lineNew);
                     break;
