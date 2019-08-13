@@ -164,6 +164,7 @@
         <module>shell</module>
         <module>cloud</module>
         <module>thread</module>
+        <module>algorithms</module>
     </modules>
 
 </project>
