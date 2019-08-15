@@ -14,9 +14,9 @@ public class Diff {
     public static void main(String[] files) throws IOException {
         long millis = System.currentTimeMillis();
 
-        String proPath = "C://Users/Dc/Desktop/diff/" + "T10151920H00012019070221000.txt";
-        String newPath = "C://Users/Dc/Desktop/diff/" + "N10151920H00012019070301000.txt";
-        String outPath = "C://Users/Dc/Desktop/diff/diff.txt";
+        String proPath = "C://Users/Dc/Desktop/diff/" + "15T10151920H00012019070281000.txt";
+        String newPath = "C://Users/Dc/Desktop/diff/" + "15N10151920H00012019070381000.txt";
+        String outPath = "C://Users/Dc/Desktop/diff/diff15.txt";
         List<String> listPro = new ArrayList<>();
         List<String> listNew = new ArrayList<>();
         Map<String,List<String>> diffMap = new HashMap<>();
@@ -37,10 +37,25 @@ public class Diff {
             accountNo = linePro.substring(22,48);
             for (String lineNew:listNew) {
                 if (accountNo.equals(lineNew.substring(22,48))) {
-                    if (lineNew.contains("B"))
+                    // 五级分类 生产有误 以新的为准
+                    if (!lineNew.substring(229,230).equals(linePro.substring(229,230)))
                         break;
+//                    if (lineNew.contains("G")||linePro.contains("G")) {
+//                        diffList.add(linePro);
+//                        diffList.add(lineNew);
+//                        break;
+//                    }
+                    // 不比较客户信息
+                    if (lineNew.contains("B")||linePro.contains("B")){
+                        if (lineNew.substring(10,265).equals(linePro.substring(10,265)))
+                            break;
+                    }
+                    // 最后一位为数字
 //                    if (!lineNew.substring(254, 255).matches("^\\d+$"))
 //                        break;
+                    // 特殊交易 安硕系统bug
+                    if (lineNew.contains("G"))
+                        break;
                     diffList.add(linePro);
                     diffList.add(lineNew);
                     break;
@@ -66,17 +81,6 @@ public class Diff {
         outputStream.close();
     }
 
-    private static void writeFile(List<String> listDiff,String outPath) throws IOException {
-
-        BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(outPath));
-        for (String line:listDiff) {
-//            String status = line.substring(254, 255);
-//            if ("N".equals(status) || "*".equals(status) || "C".equals(status))
-            outputStream.write((line.substring(22,48)+"\n").getBytes());
-        }
-        outputStream.close();
-    }
-
     private static void readFile(List<String> listPro,List<String> listNew,String proPath,String newPath) throws IOException {
 
         BufferedReader readerPro = new BufferedReader(new FileReader(proPath));
@@ -88,6 +92,16 @@ public class Diff {
             listNew.add(line);
         readerPro.close();
         readerNew.close();
+    }
+
+
+    private static void writeFile(List<String> listDiff,String outPath) throws IOException {
+
+        BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(outPath));
+        for (String line:listDiff) {
+            outputStream.write((line.substring(22,48)+"\n").getBytes());
+        }
+        outputStream.close();
     }
 
     private static List<String> diff(List<String> listPro,List<String> listNew) {
