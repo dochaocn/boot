@@ -1,4 +1,4 @@
-package com.dc.cloudconsumer.swagger;
+package com.dc.cloudconsumer.response;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

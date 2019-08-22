@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Bean;
 @EnableCircuitBreaker   // 断路器
 @EnableHystrixDashboard // 监控
 @CloudComponent
-@SpringBootApplication(scanBasePackages = {"com.dc.cloudconsumer.config","com.dc.cloudconsumer.eureka"})
+@SpringBootApplication(scanBasePackages = {"com.dc.cloudconsumer.config","com.dc.cloudconsumer.eureka","com.dc.cloudconsumer.controller"})
 public class CloudConsumerApplication {
 
     public static void main(String[] args) {

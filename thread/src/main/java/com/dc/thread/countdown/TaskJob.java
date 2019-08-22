@@ -17,9 +17,10 @@ public class TaskJob implements Runnable {
         try {
             Thread.sleep(1000L);
             System.out.println("任务" + jobId + "-已完成");
-            countDownLatch.countDown();
         } catch (InterruptedException e) {
             e.printStackTrace();
+        } finally {
+            countDownLatch.countDown();
         }
     }
 }

@@ -1,8 +1,8 @@
 package com.dc.cloudconsumer.eureka;
 
 import com.dc.api.support.CloudComponent;
-import com.dc.cloudconsumer.swagger.RequestModel;
-import com.dc.cloudconsumer.swagger.ResponseDto;
+import com.dc.cloudconsumer.response.RequestModel;
+import com.dc.cloudconsumer.response.ResponseDto;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
