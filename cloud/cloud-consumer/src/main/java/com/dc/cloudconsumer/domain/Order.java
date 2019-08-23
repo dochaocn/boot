@@ -8,9 +8,9 @@ import java.time.LocalDate;
 
 @Data
 public class Order {
-    @NotEmpty(message = "name 不能为空")
+    @NotEmpty
     private String name;
-    @Max(value = 9999L, message = "id 超过最大值(9999)")
+    @Max(value = 9999L)
     private Long id;
     private LocalDate localDate;
 }
