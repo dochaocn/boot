@@ -14,9 +14,9 @@ public class Diff {
     public static void main(String[] files) throws IOException {
         long millis = System.currentTimeMillis();
 
-        String proPath = "C://Users/Dc/Desktop/diff/" + "15T10151920H00012019070281000.txt";
-        String newPath = "C://Users/Dc/Desktop/diff/" + "15N10151920H00012019070381000.txt";
-        String outPath = "C://Users/Dc/Desktop/diff/diff15.txt";
+        String proPath = "C://Users/Dc/Desktop/diff/" + "17T10151920H00012019070351000.txt";
+        String newPath = "C://Users/Dc/Desktop/diff/" + "17N8.23.txt";
+        String outPath = "C://Users/Dc/Desktop/diff/diff17-2.txt";
         List<String> listPro = new ArrayList<>();
         List<String> listNew = new ArrayList<>();
         Map<String,List<String>> diffMap = new HashMap<>();
@@ -32,11 +32,17 @@ public class Diff {
     private static void toDiffMap(List<String> listPro, List<String> listNew,Map<String,List<String>> diffMap) {
         List<String> diffList;
         String accountNo;
+        List<String> noPro = new ArrayList<>();
+        List<String> noNew = new ArrayList<>();
         for (String linePro:listPro) {
             diffList = new ArrayList<>(2);
             accountNo = linePro.substring(22,48);
+            noPro.add(accountNo);
+            boolean flag = false;
             for (String lineNew:listNew) {
-                if (accountNo.equals(lineNew.substring(22,48))) {
+                String accountNoNew = lineNew.substring(22,48);
+                if (accountNo.equals(accountNoNew)) {
+                    noNew.add(accountNoNew);
                     // 五级分类 生产有误 以新的为准
                     if (!lineNew.substring(229,230).equals(linePro.substring(229,230)))
                         break;
@@ -54,15 +60,18 @@ public class Diff {
 //                    if (!lineNew.substring(254, 255).matches("^\\d+$"))
 //                        break;
                     // 特殊交易 安硕系统bug
-                    if (lineNew.contains("G"))
-                        break;
+//                    if (lineNew.contains("G"))
+//                        break;
                     diffList.add(linePro);
                     diffList.add(lineNew);
+                    flag = true;
                     break;
                 }
             }
             diffMap.put(accountNo,diffList);
         }
+        noPro.removeAll(noNew);
+        log.error(noPro.toString());
     }
 
     private static void writeFile(Map<String,List<String>> diffMap,String outPath) throws IOException {
