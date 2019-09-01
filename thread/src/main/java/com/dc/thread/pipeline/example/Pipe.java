@@ -1,13 +1,9 @@
-package com.dc.thread.pipeline;
-
-import com.dc.thread.pipeline.tools.PipeContext;
-
-import java.util.concurrent.TimeUnit;
+package com.dc.thread.pipeline.example;
 
 /**
  * 对处理阶段的抽象。
  * 负责对输入进行处理，并将输出作为下一处理阶段的输入
- * @author huzhiqiang
+ * @author dc
  *
  */
 public interface Pipe<IN, OUT> {
@@ -24,6 +20,4 @@ public interface Pipe<IN, OUT> {
      */
     void process(IN input) throws InterruptedException;
 
-    void init(PipeContext pipeCtx);
-    void shutdown(long timeout, TimeUnit unit);
 }

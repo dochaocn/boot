@@ -165,6 +165,7 @@
         <module>cloud</module>
         <module>thread</module>
         <module>algorithms</module>
+        <module>patterns</module>
     </modules>
 
 </project>

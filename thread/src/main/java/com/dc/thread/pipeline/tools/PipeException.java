@@ -1,6 +1,6 @@
 package com.dc.thread.pipeline.tools;
 
-import com.dc.thread.pipeline.Pipe;
+import com.dc.thread.pipeline.example.Pipe;
 
 public class PipeException extends Exception {
 
