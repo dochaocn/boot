@@ -1,6 +1,8 @@
 package com.dc.thread.pipeline.example.controller;
 
+import com.dc.thread.pipeline.example.strategy.D2SingleLoanAccountInfo;
 import com.dc.thread.pipeline.example.strategy.ReportStrategy;
+import com.dc.thread.pipeline.example.strategy.X2LoopLoanAccountInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -10,14 +12,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
-import java.util.Collection;
+import java.util.*;
 import java.util.concurrent.ExecutorService;
 
 @Slf4j
 @Controller
 public class RequestController implements ApplicationContextAware {
 
-    private Collection<ReportStrategy> collection;
+    private final List<ReportStrategy> strategyList = new ArrayList<>();
 
     @Resource
     private ExecutorService executorService;
@@ -25,33 +27,15 @@ public class RequestController implements ApplicationContextAware {
     @RequestMapping("/batch")
     @ResponseBody
     public String batch() {
-
         executorService.execute(() -> {
-            for (int i = 0; i < 500000; i++) {
+            for (int i = 0; i < 50000; i++) {
                 int finalI = i;
-                collection.forEach(strategy -> {
+                strategyList.forEach(strategy -> {
                     if (strategy.isThis("X2LoopLoanAccountInfo")) {
-                        try {
-                            strategy.execute("Task-X2-" + finalI);
-                        } catch (InterruptedException e) {
-                            log.error("", e);
-                        }
+                        strategy.execute("Task-X2-" + finalI); // 只负责调起第一步
                     }
                 });
             }
-
-//            for (int i = 0; i < 1000; i++) {
-//                int finalI = i;
-//                collection.forEach(strategy -> {
-//                    if (strategy.isThis("D2SingleLoanAccountInfo")) {
-//                        try {
-//                            strategy.execute("Task-D2-" + finalI);
-//                        } catch (InterruptedException e) {
-//                            log.error("", e);
-//                        }
-//                    }
-//                });
-//            }
         });
 
         return "提交任务成功,执行中...";
@@ -59,6 +43,7 @@ public class RequestController implements ApplicationContextAware {
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        collection = applicationContext.getBeansOfType(ReportStrategy.class).values();
+        strategyList.addAll(applicationContext.getBeansOfType(X2LoopLoanAccountInfo.class).values());
+        strategyList.addAll(applicationContext.getBeansOfType(D2SingleLoanAccountInfo.class).values());
     }
 }

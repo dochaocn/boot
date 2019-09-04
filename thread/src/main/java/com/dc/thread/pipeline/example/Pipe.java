@@ -16,8 +16,7 @@ public interface Pipe<IN, OUT> {
     /**
      * 对输入的元素进行处理，并将处理结果作为下一个Pipe实例的输入
      * @param input
-     * @throws InterruptedException
      */
-    void process(IN input) throws InterruptedException;
+    void process(IN input);
 
 }

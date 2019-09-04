@@ -1,36 +1,60 @@
 package com.dc.thread.pipeline.example;
 
-import lombok.extern.slf4j.Slf4j;
-
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.*;
 import java.util.concurrent.ExecutorService;
 
-@Slf4j
+/**
+ * 构建流水线任务步骤与任务启动
+ * 将abstractPipe实例(业务处理逻辑)经过装饰者Decorator装饰成可执行线程
+ *
+ * defineExecutionSteps 构建流水线任务步骤
+ * process 任务启动
+ *
+ * prototype,该组件为原型,每个具体策略类里都有自己的simplePipeline
+ *
+ * @author dc
+ */
+
 public class SimplePipeline<IN, OUT> {
-    private final Queue<Pipe<IN, OUT>> pipes = new LinkedList<>();
+    private final List<Pipe<IN, OUT>> decoratorPipes = new ArrayList<>();
 
-    public void init() {
-        //设置处理任务的先后顺序
-        Iterator<Pipe<IN, OUT>> iterator = pipes.iterator();
-        Pipe<IN, OUT> prePipe = iterator.next();
-        while (iterator.hasNext()) {
-            Pipe<IN, OUT> nextPipe = iterator.next();
-            prePipe.setNextPipe(nextPipe);
-            prePipe = nextPipe;
-        }
+    public void defineExecutionSteps(List<Pipe<IN, OUT>> pipeList, ExecutorService executorService) {
+        this.addDecoratorPipes(pipeList, executorService);
+        this.executionStep();
     }
 
-    public SimplePipeline<IN, OUT> addPipe(Pipe<IN, OUT> delegate, ExecutorService executorService){
-        pipes.add(new ThreadPoolPipeDecorator<>(delegate, executorService));
-        return this;
+    public void defineExecutionSteps(List<Pipe<IN, OUT>> pipeList) {
+        this.addDecoratorPipes(pipeList);
+        this.executionStep();
     }
 
-    public void process(IN input) throws InterruptedException {
-        Pipe<IN, OUT> firstPipe = pipes.peek();
-        if (firstPipe != null) {
-            firstPipe.process(input);
+    public void process(IN input) {
+        Pipe<IN, OUT> firstDecoratorPipe = decoratorPipes.get(0);
+        if (firstDecoratorPipe != null)
+            firstDecoratorPipe.process(input);
+    }
+
+    private void addDecoratorPipes(List<Pipe<IN, OUT>> pipeList, ExecutorService executorService) {
+        pipeList.forEach(pipe -> {
+            AsyncPipeDecorator<IN, OUT> decoratorPipe = new AsyncPipeDecorator<>(pipe, executorService);
+            decoratorPipes.add(decoratorPipe);
+        });
+    }
+
+    private void addDecoratorPipes(List<Pipe<IN, OUT>> pipeList) {
+        pipeList.forEach(pipe -> {
+            SyncPipeDecorator<IN, OUT> decoratorPipe = new SyncPipeDecorator<>(pipe);
+            decoratorPipes.add(decoratorPipe);
+        });
+    }
+
+    private void executionStep() {
+        Iterator<Pipe<IN, OUT>> decoratorPipesIterator = decoratorPipes.iterator();
+        Pipe<IN, OUT> currentDecoratorPipe = decoratorPipesIterator.next();
+        while (decoratorPipesIterator.hasNext()) {
+            Pipe<IN, OUT> nextDecoratorPipe = decoratorPipesIterator.next();
+            currentDecoratorPipe.setNextPipe(nextDecoratorPipe);
+            currentDecoratorPipe = nextDecoratorPipe;
         }
     }
 

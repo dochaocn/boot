@@ -1,13 +1,6 @@
 package com.dc.thread.pipeline.example.strategy;
 
-import com.dc.thread.pipeline.example.Pipe;
-import com.dc.thread.pipeline.example.SimplePipeline;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-
-import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
-import java.util.concurrent.ExecutorService;
 
 /**
  * 单笔贷款账户数据信息（对应数据接口 D2：单笔贷款账户数据上报接口）
@@ -20,34 +13,16 @@ import java.util.concurrent.ExecutorService;
  * @author dc
 */
 
-@Slf4j
 @Component
-public class D2SingleLoanAccountInfo implements ReportStrategy {
-    private SimplePipeline<Object, Object> simplePipeline = new SimplePipeline<>();
-
-    @Resource
-    private ExecutorService executorService;
-    @Resource
-    private Pipe<Object,Object> stageOne;
-    @Resource
-    private Pipe<Object,Object> stageTwo;
+public class D2SingleLoanAccountInfo extends AbstractReportStrategy {
 
     @Override
     public boolean isThis(Object object) {
-        String str = (String) object;
-        return "D2SingleLoanAccountInfo".equals(str);
+        return false;
     }
 
     @Override
-    public void execute(Object object) throws InterruptedException {
-        simplePipeline.process(object);
-    }
+    public void execute(Object object) {
 
-    @PostConstruct
-    public void buildStage() {
-        simplePipeline
-                .addPipe(stageOne, executorService)
-                .addPipe(stageTwo, executorService)
-                .init();
     }
 }

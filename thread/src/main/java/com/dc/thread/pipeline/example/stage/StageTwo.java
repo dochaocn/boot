@@ -1,6 +1,5 @@
 package com.dc.thread.pipeline.example.stage;
 
-import com.dc.thread.pipeline.example.AbstractPipe;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -9,9 +8,13 @@ import org.springframework.stereotype.Component;
 public class StageTwo extends AbstractPipe {
 
     @Override
-    public Object doProcess(Object input) throws InterruptedException {
-        Thread.sleep(50L);
-        log.info("StageTwo:" + input.toString());
+    public Object doProcess(Object input) {
+        try {
+            Thread.sleep(sleepTime);
+        } catch (InterruptedException e) {
+            log.error("", e);
+        }
+//        log.info("StageTwo:" + input.toString());
         return "StageTwo-" + input.toString();
     }
 }
