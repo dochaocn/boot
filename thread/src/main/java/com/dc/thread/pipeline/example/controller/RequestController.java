@@ -92,7 +92,10 @@ public class RequestController implements ApplicationContextAware {
         list.forEach(body -> {
             reportTypeList.forEach(type -> {
                 if (type.isType(reportType)) {
-                    type.execute(body, url);
+                    executorService.execute(() -> {
+                        Object result = type.execute(body, url);
+                        // TODO 投递到队列里, 另一个线程把返回信息存入数据库
+                    });
                 }
             });
         });
