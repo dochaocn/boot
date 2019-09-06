@@ -1,4 +1,6 @@
-package com.dc.thread.pipeline.example;
+package com.dc.thread.pipeline.example.decorator;
+
+import com.dc.thread.pipeline.example.Pipe;
 
 public class SyncPipeDecorator<IN, OUT> implements Pipe<IN, OUT> {
     private final Pipe<IN, OUT> pipe;

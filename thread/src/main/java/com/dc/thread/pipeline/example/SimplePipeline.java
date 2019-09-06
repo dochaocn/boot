@@ -1,5 +1,12 @@
 package com.dc.thread.pipeline.example;
 
+import com.dc.thread.pipeline.example.decorator.AsyncPipeDecorator;
+import com.dc.thread.pipeline.example.decorator.SyncPipeDecorator;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
+import javax.annotation.Resource;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 
@@ -15,15 +22,21 @@ import java.util.concurrent.ExecutorService;
  * @author dc
  */
 
+@Slf4j
+@Component
+@Scope("prototype")
 public class SimplePipeline<IN, OUT> {
     private final List<Pipe<IN, OUT>> decoratorPipes = new ArrayList<>();
 
-    public void defineExecutionSteps(List<Pipe<IN, OUT>> pipeList, ExecutorService executorService) {
+    @Resource
+    private ExecutorService executorService;
+
+    public void defineAsyncExecutionSteps(List<Pipe<IN, OUT>> pipeList) {
         this.addDecoratorPipes(pipeList, executorService);
         this.executionStep();
     }
 
-    public void defineExecutionSteps(List<Pipe<IN, OUT>> pipeList) {
+    public void defineSyncExecutionSteps(List<Pipe<IN, OUT>> pipeList) {
         this.addDecoratorPipes(pipeList);
         this.executionStep();
     }
@@ -35,24 +48,19 @@ public class SimplePipeline<IN, OUT> {
     }
 
     private void addDecoratorPipes(List<Pipe<IN, OUT>> pipeList, ExecutorService executorService) {
-        pipeList.forEach(pipe -> {
-            AsyncPipeDecorator<IN, OUT> decoratorPipe = new AsyncPipeDecorator<>(pipe, executorService);
-            decoratorPipes.add(decoratorPipe);
-        });
+        pipeList.forEach(pipe -> decoratorPipes.add(new AsyncPipeDecorator<>(pipe, executorService)));
     }
 
     private void addDecoratorPipes(List<Pipe<IN, OUT>> pipeList) {
-        pipeList.forEach(pipe -> {
-            SyncPipeDecorator<IN, OUT> decoratorPipe = new SyncPipeDecorator<>(pipe);
-            decoratorPipes.add(decoratorPipe);
-        });
+        pipeList.forEach(pipe -> decoratorPipes.add(new SyncPipeDecorator<>(pipe)));
     }
 
     private void executionStep() {
         Iterator<Pipe<IN, OUT>> decoratorPipesIterator = decoratorPipes.iterator();
         Pipe<IN, OUT> currentDecoratorPipe = decoratorPipesIterator.next();
+        Pipe<IN, OUT> nextDecoratorPipe;
         while (decoratorPipesIterator.hasNext()) {
-            Pipe<IN, OUT> nextDecoratorPipe = decoratorPipesIterator.next();
+            nextDecoratorPipe = decoratorPipesIterator.next();
             currentDecoratorPipe.setNextPipe(nextDecoratorPipe);
             currentDecoratorPipe = nextDecoratorPipe;
         }

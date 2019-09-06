@@ -6,7 +6,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.web.client.RestTemplate;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -21,6 +24,10 @@ public class ThreadApplication {
 
     @Value("${thread.maxPoolSize}")
     private Integer maxPoolSize;
+//    @Value("${http.authorization.username}")
+//    private String username;
+//    @Value("${http.authorization.password}")
+//    private String password;
 
     @Bean
     public ExecutorService executorService() {
@@ -33,5 +40,15 @@ public class ThreadApplication {
     @Bean
     public SpringBootContext springBootContext() {
         return new SpringBootContext();
+    }
+
+    @Bean
+    public RestTemplate restTemplate() {
+        Map<String, String> variables = new HashMap<>();
+        RestTemplate restTemplate = new RestTemplate();
+        variables.put("Content-Type", "application/json");
+//        variables.put("Authorization", "HTTP Basic Authorization based on " + username + " and " + password);
+        restTemplate.setDefaultUriVariables(variables);
+        return restTemplate;
     }
 }

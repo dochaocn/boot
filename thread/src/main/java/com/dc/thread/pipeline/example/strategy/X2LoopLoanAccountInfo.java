@@ -1,5 +1,6 @@
 package com.dc.thread.pipeline.example.strategy;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -15,6 +16,7 @@ import javax.annotation.PostConstruct;
  * @author dc
  */
 
+@Slf4j
 @Component
 public class X2LoopLoanAccountInfo extends AbstractReportStrategy {
 

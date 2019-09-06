@@ -1,4 +1,6 @@
-package com.dc.thread.pipeline.example;
+package com.dc.thread.pipeline.example.decorator;
+
+import com.dc.thread.pipeline.example.Pipe;
 
 import java.util.concurrent.ExecutorService;
 

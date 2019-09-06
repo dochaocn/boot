@@ -1,10 +1,8 @@
 package com.dc.thread.pipeline.example.stage;
 
 import com.dc.thread.pipeline.example.Pipe;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 
-@Slf4j
 public abstract class AbstractPipe<IN, OUT> implements Pipe<IN, OUT> {
     private Pipe<?, ?> nextDecoratorPipe = null;
     @Value("${thread.sleepTime}")

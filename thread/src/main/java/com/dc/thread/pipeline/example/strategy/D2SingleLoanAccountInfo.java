@@ -1,6 +1,9 @@
 package com.dc.thread.pipeline.example.strategy;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+
+import javax.annotation.PostConstruct;
 
 /**
  * 单笔贷款账户数据信息（对应数据接口 D2：单笔贷款账户数据上报接口）
@@ -13,16 +16,27 @@ import org.springframework.stereotype.Component;
  * @author dc
 */
 
+@Slf4j
 @Component
 public class D2SingleLoanAccountInfo extends AbstractReportStrategy {
 
     @Override
     public boolean isThis(Object object) {
-        return false;
+        String str = (String) object;
+        return "D2SingleLoanAccountInfo".equals(str);
     }
 
     @Override
     public void execute(Object object) {
+        simplePipeline.process(object);
+    }
 
+    @PostConstruct
+    public void buildStage() {
+        super.stageList.add(super.stageTwo);
+        super.stageList.add(super.stageThree);
+        super.stageList.add(super.stageOne);
+        super.stageList.add(super.stageFour);
+        super.useAsyncOrSync();
     }
 }
