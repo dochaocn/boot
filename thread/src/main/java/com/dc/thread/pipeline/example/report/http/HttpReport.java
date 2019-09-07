@@ -22,7 +22,6 @@ public class HttpReport implements ReportType {
     @Override
     public Object execute(Object body, String url){
         ResponseEntity<Object> response = restTemplate.postForEntity(url, body, Object.class);
-        log.info(response.toString());
         return new ResponseMessage(response.getStatusCode(), response.getBody());
     }
 

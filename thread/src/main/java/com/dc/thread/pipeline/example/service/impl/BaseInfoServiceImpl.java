@@ -19,7 +19,6 @@ public class BaseInfoServiceImpl implements BaseInfoService {
         RequestBody requestBody = new RequestBody();
         List<Object> list = new ArrayList<>();
         list.add("1");
-        list.add("2");
         requestBody.setObj(list);
         requestBody.setUrl(url);
         return requestBody;

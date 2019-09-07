@@ -84,23 +84,30 @@ public class RequestController implements ApplicationContextAware {
 
     @RequestMapping("/report")
     @ResponseBody
-    public String report() {
+    public void report() {
+
         String reportType = "http";
         RequestBody requestBody = baseInfoService.selectBaseInfo("");
         List<Object> list = requestBody.getObj();
         String url = requestBody.getUrl();
-        list.forEach(body -> {
-            reportTypeList.forEach(type -> {
-                if (type.isType(reportType)) {
-                    executorService.execute(() -> {
-                        Object result = type.execute(body, url);
-                        // TODO 投递到队列里, 另一个线程把返回信息存入数据库
-                    });
-                }
-            });
-        });
+        for (int j = 0; j < 10000; j++) {
 
-        return "任务成功";
+            list.forEach(body -> {
+                reportTypeList.forEach(type -> {
+                    if (type.isType(reportType))
+                        executorService.execute(() -> type.execute(body, url));
+                });
+            });
+
+        }
+
+    }
+
+    @RequestMapping("/execute")
+    @ResponseBody
+    public Object execute() throws InterruptedException {
+        Thread.sleep(30L);
+        return Math.random();
     }
 
     @Override
