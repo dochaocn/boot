@@ -2,13 +2,15 @@ package com.dc.thread.pipeline.example.strategy;
 
 import com.dc.thread.pipeline.example.Pipe;
 import com.dc.thread.pipeline.example.SimplePipeline;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class AbstractReportStrategy implements ReportStrategy {
+@Slf4j
+public abstract class AbstractReportStrategy {
     @Value("${isAsync}")
     protected boolean isAsync;
 
@@ -26,9 +28,17 @@ public abstract class AbstractReportStrategy implements ReportStrategy {
     protected Pipe<Object,Object> stageFour;
 
     protected void useAsyncOrSync() {
+        log.info("执行策略类={}, 执行步骤类={}", this.getClass().getName(), stageList.toString());
         if (isAsync)
             simplePipeline.defineAsyncExecutionSteps(stageList); // 异步并行执行
         else
             simplePipeline.defineSyncExecutionSteps(stageList); // 同步串行执行
     }
+
+    // 判断是否使用此策略
+    public abstract boolean isThis(Object object);
+
+    // 执行该策略
+    public abstract void execute(Object object);
+
 }

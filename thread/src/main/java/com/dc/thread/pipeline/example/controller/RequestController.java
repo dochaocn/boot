@@ -3,8 +3,8 @@ package com.dc.thread.pipeline.example.controller;
 import com.dc.thread.pipeline.example.RequestBody;
 import com.dc.thread.pipeline.example.report.ReportType;
 import com.dc.thread.pipeline.example.service.BaseInfoService;
+import com.dc.thread.pipeline.example.strategy.AbstractReportStrategy;
 import com.dc.thread.pipeline.example.strategy.D2SingleLoanAccountInfo;
-import com.dc.thread.pipeline.example.strategy.ReportStrategy;
 import com.dc.thread.pipeline.example.strategy.X2LoopLoanAccountInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
@@ -23,7 +23,7 @@ import java.util.concurrent.ExecutorService;
 @Controller
 public class RequestController implements ApplicationContextAware {
 
-    private final List<ReportStrategy> strategyList = new ArrayList<>();
+    private final List<AbstractReportStrategy> strategyList = new ArrayList<>();
     private final List<ReportType> reportTypeList = new ArrayList<>();
 
     @Value("${task.num}")
