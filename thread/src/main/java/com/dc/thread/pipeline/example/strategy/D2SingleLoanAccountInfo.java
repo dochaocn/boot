@@ -13,17 +13,12 @@ public class D2SingleLoanAccountInfo extends AbstractReportStrategy {
         return "D2SingleLoanAccountInfo".equals(str);
     }
 
-    @Override
-    public void execute(Object object) {
-        simplePipeline.process(object);
-    }
-
     @PostConstruct
     public void buildStage() {
-        super.stageList.add(super.stageTwo);
-        super.stageList.add(super.stageThree);
-        super.stageList.add(super.stageOne);
-        super.stageList.add(super.stageFour);
+        super.stageList.add("stageOne");
+        super.stageList.add("stageTwo");
+        super.stageList.add("stageThree");
+        super.stageList.add("stageFour");
         super.useAsyncOrSync();
     }
 }

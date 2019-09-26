@@ -22,13 +22,14 @@ public class Diff {
         Map<String,List<String>> diffMap = new HashMap<>();
 
         readFile(listPro,listNew,proPath,newPath);
-
+        log.info("耗时={}",System.currentTimeMillis() - millis);
         compareNoNum(listPro, listNew);
-
+        log.info("耗时={}",System.currentTimeMillis() - millis);
         listPro.removeAll(listNew);
         toDiffMap(listPro,listNew,diffMap);
+        log.info("耗时={}",System.currentTimeMillis() - millis);
         writeFile(diffMap,outPath);
-
+        log.info("耗时={}",System.currentTimeMillis() - millis);
         log.info("耗时={}",System.currentTimeMillis() - millis);
     }
 
@@ -42,8 +43,25 @@ public class Diff {
                 String accountNoNew = lineNew.substring(22,48);
                 if (accountNo.equals(accountNoNew)) {
                     // 五级分类 生产有误 以新的为准
-                    if (!lineNew.substring(229,230).equals(linePro.substring(229,230)))
+                    if (!lineNew.substring(229,230).equals(linePro.substring(229,230))) {
+                        if (lineNew.substring(0,228).equals(linePro.substring(0,228))
+                                && lineNew.substring(231).equals(linePro.substring(231))) {
+                            break;
+                        }
+                    }
+
+                    if (lineNew.substring(0,142).equals(linePro.substring(0,142))
+                            && lineNew.substring(153,174).equals(linePro.substring(153,174))
+                            && lineNew.substring(185).equals(linePro.substring(185))) {
                         break;
+                    }
+
+//                    if (!lineNew.substring(230,231).equals(linePro.substring(230,231))) {
+//                        if (lineNew.substring(0,229).equals(linePro.substring(0,229))
+//                                && lineNew.substring(232).equals(linePro.substring(232))) {
+//                            break;
+//                        }
+//                    }
 //                    if (lineNew.contains("G")||linePro.contains("G")) {
 //                        diffList.add(linePro);
 //                        diffList.add(lineNew);

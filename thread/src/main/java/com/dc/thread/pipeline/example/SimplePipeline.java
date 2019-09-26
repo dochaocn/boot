@@ -3,6 +3,7 @@ package com.dc.thread.pipeline.example;
 import com.dc.thread.pipeline.example.decorator.AsyncPipeDecorator;
 import com.dc.thread.pipeline.example.decorator.SyncPipeDecorator;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -30,29 +31,41 @@ public class SimplePipeline<IN, OUT> {
 
     @Resource
     private ExecutorService executorService;
+    @Resource
+    private ApplicationContext applicationContext;
 
-    public void defineAsyncExecutionSteps(List<Pipe<IN, OUT>> pipeList) {
-        this.addDecoratorPipes(pipeList, executorService);
+    public void definePipeLineAsyncSteps(List<String> pipeList) {
+        this.addAsyncDecoratorPipes(pipeList);
         this.executionStep();
     }
 
-    public void defineSyncExecutionSteps(List<Pipe<IN, OUT>> pipeList) {
-        this.addDecoratorPipes(pipeList);
+    public void defineSimpleAsyncSteps(List<String> pipeList) {
+        this.addSyncDecoratorPipes(pipeList);
         this.executionStep();
     }
 
-    public void process(IN input) {
+    public void process(IN input, String processType) {
         Pipe<IN, OUT> firstDecoratorPipe = decoratorPipes.get(0);
-        if (firstDecoratorPipe != null)
-            firstDecoratorPipe.process(input);
+        if (firstDecoratorPipe != null) {
+            if ("SimpleAsync".equals(processType))
+                executorService.execute(() -> firstDecoratorPipe.process(input));
+            else
+                firstDecoratorPipe.process(input);
+        }
     }
 
-    private void addDecoratorPipes(List<Pipe<IN, OUT>> pipeList, ExecutorService executorService) {
-        pipeList.forEach(pipe -> decoratorPipes.add(new AsyncPipeDecorator<>(pipe, executorService)));
+    private void addAsyncDecoratorPipes(List<String> pipeNameList) {
+        pipeNameList.forEach(pipeName -> {
+            Pipe<IN, OUT> abstractPipe = (Pipe<IN, OUT>) applicationContext.getBean(pipeName);
+            decoratorPipes.add(new AsyncPipeDecorator<>(abstractPipe, executorService));
+        });
     }
 
-    private void addDecoratorPipes(List<Pipe<IN, OUT>> pipeList) {
-        pipeList.forEach(pipe -> decoratorPipes.add(new SyncPipeDecorator<>(pipe)));
+    private void addSyncDecoratorPipes(List<String> pipeNameList) {
+        pipeNameList.forEach(pipeName -> {
+            Pipe<IN, OUT> pipe = (Pipe<IN, OUT>) applicationContext.getBean(pipeName);
+            decoratorPipes.add(new SyncPipeDecorator<>(pipe));
+        });
     }
 
     private void executionStep() {
@@ -64,6 +77,7 @@ public class SimplePipeline<IN, OUT> {
             currentDecoratorPipe.setNextPipe(nextDecoratorPipe);
             currentDecoratorPipe = nextDecoratorPipe;
         }
+        System.out.println("aaa");
     }
 
 }
