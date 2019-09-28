@@ -28,7 +28,9 @@ mybatis:
 
 server:
   port: 8009
+  servlet:
+    context-path: /rps
 
 logging:
   level:
-    com.dc.plus.mapper: debug
+    com.bsb.rps.mapper: debug

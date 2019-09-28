@@ -46,12 +46,12 @@ public class CodeGenerator {
         gc.setOutputDir(projectPath + "/src/main/java");
         gc.setAuthor("Dc");
         gc.setOpen(false);
-        gc.setSwagger2(true);
+//        gc.setSwagger2(false);
         mpg.setGlobalConfig(gc);
 
         // 数据源配置
         DataSourceConfig dsc = new DataSourceConfig();
-        dsc.setUrl("jdbc:mysql://120.79.182.70:3306/dc");
+        dsc.setUrl("jdbc:mysql://120.79.182.70:3306/sys");
         // dsc.setSchemaName("public");
         dsc.setDriverName("com.mysql.jdbc.Driver");
         dsc.setUsername("root");
@@ -60,7 +60,7 @@ public class CodeGenerator {
 
         // 包配置
         PackageConfig pc = new PackageConfig();
-        pc.setParent("com.dc.plus");
+        pc.setParent("com.bsb.rps");
         mpg.setPackageInfo(pc);
 
         // 自定义配置
@@ -103,7 +103,10 @@ public class CodeGenerator {
         strategy.setEntityLombokModel(true);
         strategy.setRestControllerStyle(true);
         strategy.setSuperEntityColumns("id");
-        strategy.setInclude(scanner("表名，多个英文逗号分割").split(","));
+//        strategy.setInclude(scanner("表名，多个英文逗号分割").split(","));
+        strategy.setInclude("bh_log_error","bh_log_task","bh_report_credit","bh_report_loan",
+                "bh_report_loan_after","bh_report_message","bh_report_plan","bh_sys_prod","bh_total_credit",
+                "bh_total_cust","bh_total_loan","bh_total_repay_flow","bh_total_repay_plan");
         strategy.setControllerMappingHyphenStyle(true);
         strategy.setTablePrefix(pc.getModuleName() + "_");
         mpg.setStrategy(strategy);
