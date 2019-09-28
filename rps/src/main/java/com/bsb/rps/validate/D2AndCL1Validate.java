@@ -1,4 +1,4 @@
-package com.bsb.rps.handler.validate;
+package com.bsb.rps.validate;
 
 import com.bsb.rps.entity.ReportRecord;
 import lombok.extern.slf4j.Slf4j;
@@ -6,11 +6,11 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
-public class D3AndCL2Validate implements Validate {
+public class D2AndCL1Validate implements Validate {
 
     @Override
     public boolean match(String recordType) {
-        return "CL2".equals(recordType) || "D3".equals(recordType);
+        return "CL1".equals(recordType) || "D2".equals(recordType);
     }
 
     @Override

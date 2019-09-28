@@ -1,41 +1,36 @@
-package com.bsb.rps.handler.disruptor;
+package com.bsb.rps.validate;
 
 import com.bsb.rps.entity.ReportRecord;
 import com.lmax.disruptor.dsl.Disruptor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ThreadFactory;
 
 @Service
 @Slf4j
-public class MainDisruptor {
+public class ValidateService {
 
     @Resource
     private ExecutorService executorService;
     @Resource
     private ThreadFactory threadFactory;
     @Resource
-    private ConsumerDisruptor consumerDisruptor;
+    private ConsumerValidate consumerValidate;
     @Resource
-    private ProviderDisruptor providerDisruptor;
+    private ProviderValidate providerValidate;
 
-    public void test() {
+    public void startValidate() {
         int bufferSize = 1024;
         Disruptor<ReportRecord> disruptor = new Disruptor<>(ReportRecord::new, bufferSize, threadFactory);
-        disruptor.handleEventsWithWorkerPool(consumerDisruptor);
+        disruptor.handleEventsWithWorkerPool(consumerValidate);
         disruptor.start();
 
-        providerDisruptor.setDisruptor(disruptor);
-        executorService.execute(() -> providerDisruptor.start());
+        providerValidate.setDisruptor(disruptor);
+        executorService.execute(() -> providerValidate.start());
 
     }
 
-    @PostConstruct
-    public void init() {
-
-    }
 }

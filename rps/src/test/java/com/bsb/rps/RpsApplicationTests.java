@@ -1,20 +1,16 @@
 package com.bsb.rps;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.bsb.rps.entity.BhSysProd;
 import com.bsb.rps.entity.ReportRecord;
-import com.bsb.rps.handler.disruptor.MainDisruptor;
-import com.bsb.rps.handler.validate.Validate;
+import com.bsb.rps.validate.Validate;
 import com.bsb.rps.service.IBhSysProdService;
-import com.sun.org.apache.regexp.internal.RE;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import sun.rmi.runtime.Log;
 
 import javax.annotation.Resource;
 import java.time.Duration;

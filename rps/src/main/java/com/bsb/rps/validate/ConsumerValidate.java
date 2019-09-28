@@ -1,7 +1,6 @@
-package com.bsb.rps.handler.disruptor;
+package com.bsb.rps.validate;
 
 import com.bsb.rps.entity.ReportRecord;
-import com.bsb.rps.handler.validate.Validate;
 import com.lmax.disruptor.WorkHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -11,7 +10,7 @@ import java.util.concurrent.ExecutorService;
 
 @Service
 @Slf4j
-public class ConsumerDisruptor implements WorkHandler<ReportRecord> {
+public class ConsumerValidate implements WorkHandler<ReportRecord> {
 
     @Resource
     private Validate x2Validate;
@@ -26,7 +25,7 @@ public class ConsumerDisruptor implements WorkHandler<ReportRecord> {
     public void onEvent(ReportRecord record) {
         String recordType = record.getRecordType();
 
-        executorService.execute(() -> {
+//        executorService.execute(() -> {
             if (d3AndCL2Validate.match(recordType)) {
                 d3AndCL2Validate.validate(record);
             } else if (d2AndCL1Validate.match(recordType)) {
@@ -36,7 +35,7 @@ public class ConsumerDisruptor implements WorkHandler<ReportRecord> {
             } else {
                 log.error("无效的recordType={}, data={}", recordType, record.getData());
             }
-        });
+//        });
 
     }
 

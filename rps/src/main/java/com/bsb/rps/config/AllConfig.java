@@ -13,7 +13,7 @@ import java.util.concurrent.*;
 
 @Configuration
 @MapperScan(basePackages = "com.bsb.rps.mapper")
-@ComponentScan(basePackages = {"com.bsb.rps.controller","com.bsb.rps.service.impl","com.bsb.rps.handler"})
+@ComponentScan(basePackages = {"com.bsb.rps.controller","com.bsb.rps.service.impl","com.bsb.rps.handler","com.bsb.rps.validate"})
 public class AllConfig {
 
     @ConfigurationProperties(prefix = "spring.datasource")

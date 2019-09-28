@@ -1,6 +1,5 @@
-package com.bsb.rps.handler.disruptor;
+package com.bsb.rps.validate;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.bsb.rps.entity.BhSysProd;
 import com.bsb.rps.entity.ReportRecord;
 import com.bsb.rps.service.IBhSysProdService;
@@ -17,7 +16,7 @@ import java.util.List;
 
 @Service
 @Slf4j
-public class ProviderDisruptor{
+public class ProviderValidate {
 
     private final Long size = 1L;
     private RingBuffer<ReportRecord> ringBuffer;
