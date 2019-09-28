@@ -25,7 +25,7 @@ public class AllConfig {
     @Bean
     public ExecutorService executorService() {
         return new ThreadPoolExecutor(1,
-                10,
+                100,
                 100,
                 TimeUnit.MINUTES,
                 new SynchronousQueue<>(),

@@ -31,6 +31,6 @@ server:
   servlet:
     context-path: /rps
 
-logging:
-  level:
-    com.bsb.rps.mapper: debug
+#logging:
+#  level:
+#    com.bsb.rps.mapper: debug

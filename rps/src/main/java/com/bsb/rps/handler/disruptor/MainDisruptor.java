@@ -30,7 +30,7 @@ public class MainDisruptor {
         disruptor.start();
 
         providerDisruptor.setDisruptor(disruptor);
-        executorService.execute(() -> providerDisruptor.run());
+        executorService.execute(() -> providerDisruptor.start());
 
     }
 
