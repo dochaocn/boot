@@ -9,6 +9,8 @@ import com.bsb.rps.mapper.BhLogTaskMapper;
 import com.bsb.rps.service.IBhLogTaskService;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 /**
  * <p>
  * 任务步骤表 服务实现类
@@ -22,7 +24,7 @@ public class BhLogTaskServiceImpl extends ServiceImpl<BhLogTaskMapper, BhLogTask
     @Override
     public BhLogTask insert(String taskName) {
         BhLogTask logTask = new BhLogTask();
-        logTask.setTaskId("");  //TODO 主键生成
+        logTask.setTaskId(UUID.randomUUID().toString().substring(0,10));  //TODO 主键生成
         logTask.setTaskStatus(TaskStatus.RUNNING.getCode());
         logTask.setTaskDate(ProcessDateManager.getProcessDate());
         logTask.setTaskName(taskName);
