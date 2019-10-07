@@ -1,10 +1,7 @@
 package com.bsb.rps.service;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.bsb.rps.entity.BhSysProd;
 import com.baomidou.mybatisplus.extension.service.IService;
-
-import java.util.List;
+import com.bsb.rps.entity.BhSysProd;
 
 /**
  * <p>
@@ -15,9 +12,6 @@ import java.util.List;
  */
 public interface IBhSysProdService extends IService<BhSysProd> {
 
-    BhSysProd selectOneByProdSubNo(String prodSubNo);
+    BhSysProd getByProdSubNo(String prodSubNo);
 
-    List<BhSysProd> selectAll();
-
-    List<BhSysProd> selectPage(Page<BhSysProd> iPage);
 }

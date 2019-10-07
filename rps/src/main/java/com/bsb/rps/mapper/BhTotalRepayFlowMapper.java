@@ -1,7 +1,9 @@
 package com.bsb.rps.mapper;
 
-import com.bsb.rps.entity.BhTotalRepayFlow;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.bsb.rps.entity.BhTotalRepayFlow;
+
+import java.util.Map;
 
 /**
  * <p>
@@ -12,4 +14,5 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface BhTotalRepayFlowMapper extends BaseMapper<BhTotalRepayFlow> {
 
+    void insertRepayFlow(Map<String, String> param);
 }

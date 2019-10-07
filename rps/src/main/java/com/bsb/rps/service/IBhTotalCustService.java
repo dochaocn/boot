@@ -1,7 +1,7 @@
 package com.bsb.rps.service;
 
-import com.bsb.rps.entity.BhTotalCust;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.bsb.rps.entity.BhTotalCust;
 
 /**
  * <p>

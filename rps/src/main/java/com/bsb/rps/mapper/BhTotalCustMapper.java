@@ -1,7 +1,9 @@
 package com.bsb.rps.mapper;
 
-import com.bsb.rps.entity.BhTotalCust;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.bsb.rps.entity.BhTotalCust;
+
+import java.util.Map;
 
 /**
  * <p>
@@ -12,4 +14,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface BhTotalCustMapper extends BaseMapper<BhTotalCust> {
 
+    void deleteCust(Map<String, String> param);
+
+    void insertCust(Map<String, String> param);
 }

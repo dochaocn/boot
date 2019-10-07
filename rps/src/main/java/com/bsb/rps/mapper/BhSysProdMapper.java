@@ -1,7 +1,7 @@
 package com.bsb.rps.mapper;
 
-import com.bsb.rps.entity.BhSysProd;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.bsb.rps.entity.BhSysProd;
 
 /**
  * <p>

@@ -1,5 +1,102 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.bsb.rps.mapper.BhTotalCreditMapper">
+
+    <delete id="deleteCredit" parameterType="java.util.Map">
+
+    DELETE
+    FROM
+        bh_total_credit
+    WHERE
+        (CREDIT_ACCNT_ID, APPLY_DATE) IN (
+            SELECT
+                c.CREDIT_ACCNT_ID,
+                c.APPLY_DATE
+            FROM
+                (
+                    SELECT
+                        t.CREDIT_ACCNT_ID,
+                        t.APPLY_DATE
+                    FROM
+                        bh_total_credit_${tableName} t
+                    LEFT JOIN bh_total_credit f ON t.CREDIT_ACCNT_ID = f.CREDIT_ACCNT_ID
+                    AND t.APPLY_DATE = f.APPLY_DATE
+                    WHERE
+                        f.CREDIT_ACCNT_ID IS NOT NULL
+                    AND f.APPLY_DATE IS NOT NULL
+                ) c
+            WHERE
+                NOT EXISTS (
+                    SELECT
+                        nc.CREDIT_ACCNT_ID,
+                        nc.APPLY_DATE
+                    FROM
+                        (
+                            SELECT
+                                nt.CREDIT_ACCNT_ID,
+                                nt.APPLY_DATE
+                            FROM
+                                bh_total_credit_${tableName} nt
+                            LEFT JOIN bh_total_credit nf ON nt.CREDIT_ACCNT_ID = nf.CREDIT_ACCNT_ID
+                            AND nt.APPLY_DATE = nf.APPLY_DATE
+                            WHERE
+                                nt.ACCOUNT_EXPIRE_DATE = nf.ACCOUNT_EXPIRE_DATE
+                            AND nt.CREDIT_LIMIT = nf.CREDIT_LIMIT
+                            AND nt.CREDIT_ACCNT_STATUS = nf.CREDIT_ACCNT_STATUS
+                            AND nt.GRACE_PERIOD = nf.GRACE_PERIOD
+                        ) nc
+                    WHERE
+                        c.CREDIT_ACCNT_ID = nc.CREDIT_ACCNT_ID
+                    AND c.APPLY_DATE = nc.APPLY_DATE
+                )
+        )
+
+    </delete>
+
+    <insert id="insertCredit" parameterType="java.util.Map">
+
+    INSERT INTO bh_total_credit (
+        CREDIT_ACCNT_ID,
+        APPLY_DATE,
+        ACCOUNT_OPEN_DATE,
+        ACCOUNT_EXPIRE_DATE,
+        CREDIT_LIMIT,
+        GRACE_PERIOD,
+        ACCOUNT_INFO_UPDATE_DATE,
+        CREDIT_ACCNT_STATUS,
+        CUST_NO,
+        INPUT_DATE,
+        PROCESS_STATUS
+    ) SELECT
+        CREDIT_ACCNT_ID,
+        APPLY_DATE,
+        ACCOUNT_OPEN_DATE,
+        ACCOUNT_EXPIRE_DATE,
+        CREDIT_LIMIT,
+        GRACE_PERIOD,
+        ACCOUNT_INFO_UPDATE_DATE,
+        CREDIT_ACCNT_STATUS,
+        CUST_NO,
+        ${inputDate} AS INPUT_DATE,
+        '1' AS PROCESS_STATUS
+    FROM
+        bh_total_credit_${tableName}
+    WHERE
+        (CREDIT_ACCNT_ID, APPLY_DATE) NOT IN (
+            SELECT
+                t.CREDIT_ACCNT_ID,
+                t.APPLY_DATE
+            FROM
+                bh_total_credit_${tableName} t
+            LEFT JOIN bh_total_credit f ON t.CREDIT_ACCNT_ID = f.CREDIT_ACCNT_ID
+            AND t.APPLY_DATE = f.APPLY_DATE
+            WHERE
+                t.ACCOUNT_EXPIRE_DATE = f.ACCOUNT_EXPIRE_DATE
+            AND t.CREDIT_LIMIT = f.CREDIT_LIMIT
+            AND t.CREDIT_ACCNT_STATUS = f.CREDIT_ACCNT_STATUS
+            AND t.GRACE_PERIOD = f.GRACE_PERIOD
+        )
+
+    </insert>
 
 </mapper>

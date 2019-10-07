@@ -1,9 +1,9 @@
 package com.bsb.rps.service.impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.bsb.rps.entity.BhTotalCust;
 import com.bsb.rps.mapper.BhTotalCustMapper;
 import com.bsb.rps.service.IBhTotalCustService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 /**

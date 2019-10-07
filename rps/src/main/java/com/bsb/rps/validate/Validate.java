@@ -1,10 +1,10 @@
 package com.bsb.rps.validate;
 
-import com.bsb.rps.entity.ReportRecord;
+import com.bsb.rps.dto.ReportRecord;
 
 public interface Validate {
 
-    boolean match(String recordType);
+    boolean judge(String recordType);
 
     void validate(ReportRecord record);
 }

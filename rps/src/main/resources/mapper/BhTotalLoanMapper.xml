@@ -1,5 +1,90 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.bsb.rps.mapper.BhTotalLoanMapper">
+
+    <delete id="deleteLoan" parameterType="java.util.Map">
+
+    DELETE
+    FROM
+        bh_total_loan
+    WHERE
+        ORDER_NO IN (
+            SELECT
+                c.ORDER_NO
+            FROM
+                (
+                    SELECT
+                        t.ORDER_NO
+                    FROM
+                        bh_total_loan_${tableName} t
+                    LEFT JOIN bh_total_loan f ON t.ORDER_NO = f.ORDER_NO
+                    WHERE
+                        f.ORDER_NO IS NOT NULL
+                ) c
+            WHERE
+                NOT EXISTS (
+                    SELECT
+                        nc.ORDER_NO
+                    FROM
+                        (
+                            SELECT
+                                nt.ORDER_NO
+                            FROM
+                                bh_total_loan_${tableName} nt
+                            LEFT JOIN bh_total_loan nf ON nt.ORDER_NO = nf.ORDER_NO
+                            WHERE
+                                nt.TOTAL_TERM = nf.TOTAL_TERM
+                        ) nc
+                    WHERE
+                        c.ORDER_NO = nc.ORDER_NO
+                )
+        )
+
+    </delete>
+
+    <insert id="insertLoan" parameterType="java.util.Map">
+
+    INSERT INTO bh_total_loan (
+        ORDER_NO,
+        CREDIT_ACCNT_ID,
+        PROD_SUB_NO,
+        APPLY_DATE,
+        OPEN_DATE,
+        LOAN_PURPOSE,
+        TRANS_AMOUNT,
+        TOTAL_TERM,
+        GRACE_PERIOD,
+        CHANGE_FLAG,
+        CUST_NO,
+        INPUT_DATE,
+        PROCESS_STATUS
+    ) SELECT
+        ORDER_NO,
+        CREDIT_ACCNT_ID,
+        PROD_SUB_NO,
+        APPLY_DATE,
+        OPEN_DATE,
+        LOAN_PURPOSE,
+        TRANS_AMOUNT,
+        TOTAL_TERM,
+        GRACE_PERIOD,
+        CHANGE_FLAG,
+        CUST_NO,
+        ${inputDate} AS INPUT_DATE,
+        '1' AS PROCESS_STATUS
+    FROM
+        bh_total_loan_${tableName}
+    WHERE
+        ORDER_NO NOT IN (
+            SELECT
+                t.ORDER_NO
+            FROM
+                bh_total_loan_${tableName} t
+            LEFT JOIN bh_total_loan f ON t.ORDER_NO = f.ORDER_NO
+            WHERE
+                t.TOTAL_TERM = f.TOTAL_TERM
+        )
+
+    </insert>
 
 </mapper>

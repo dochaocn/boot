@@ -1,7 +1,9 @@
 package com.bsb.rps.mapper;
 
-import com.bsb.rps.entity.BhTotalCredit;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.bsb.rps.entity.BhTotalCredit;
+
+import java.util.Map;
 
 /**
  * <p>
@@ -12,4 +14,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface BhTotalCreditMapper extends BaseMapper<BhTotalCredit> {
 
+    void insertCredit(Map<String, String> param);
+
+    void deleteCredit(Map<String, String> param);
 }

@@ -1,7 +1,7 @@
 package com.bsb.rps.mapper;
 
-import com.bsb.rps.entity.BhReportLoanAfter;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.bsb.rps.entity.BhReportLoanAfter;
 
 /**
  * <p>

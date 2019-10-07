@@ -1,7 +1,7 @@
 package com.bsb.rps.service;
 
-import com.bsb.rps.entity.BhLogTask;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.bsb.rps.entity.BhLogTask;
 
 /**
  * <p>
@@ -12,4 +12,11 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IBhLogTaskService extends IService<BhLogTask> {
 
+    BhLogTask insert(String taskName);
+
+    boolean updateById(String taskId, String taskStatus);
+
+    boolean updateErrorById(String taskId);
+
+    boolean updateSuccessById(String taskId);
 }

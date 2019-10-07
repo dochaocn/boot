@@ -1,9 +1,9 @@
 package com.bsb.rps.service.impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.bsb.rps.entity.BhReportCredit;
 import com.bsb.rps.mapper.BhReportCreditMapper;
 import com.bsb.rps.service.IBhReportCreditService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 /**

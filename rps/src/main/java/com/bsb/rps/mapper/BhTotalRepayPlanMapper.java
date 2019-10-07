@@ -1,7 +1,9 @@
 package com.bsb.rps.mapper;
 
-import com.bsb.rps.entity.BhTotalRepayPlan;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.bsb.rps.entity.BhTotalRepayPlan;
+
+import java.util.Map;
 
 /**
  * <p>
@@ -12,4 +14,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface BhTotalRepayPlanMapper extends BaseMapper<BhTotalRepayPlan> {
 
+    void deleteRepayPlan(Map<String, String> param);
+
+    void insertRepayPlan(Map<String, String> param);
 }

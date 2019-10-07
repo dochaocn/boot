@@ -1,7 +1,9 @@
 package com.bsb.rps.mapper;
 
-import com.bsb.rps.entity.BhTotalLoan;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.bsb.rps.entity.BhTotalLoan;
+
+import java.util.Map;
 
 /**
  * <p>
@@ -12,4 +14,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface BhTotalLoanMapper extends BaseMapper<BhTotalLoan> {
 
+    void deleteLoan(Map<String, String> param);
+
+    void insertLoan(Map<String, String> param);
 }

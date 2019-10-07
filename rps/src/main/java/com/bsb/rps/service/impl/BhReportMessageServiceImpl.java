@@ -1,9 +1,9 @@
 package com.bsb.rps.service.impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.bsb.rps.entity.BhReportMessage;
 import com.bsb.rps.mapper.BhReportMessageMapper;
 import com.bsb.rps.service.IBhReportMessageService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 /**

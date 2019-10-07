@@ -1,5 +1,48 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.bsb.rps.mapper.BhTotalRepayPlanMapper">
+
+    <delete id="deleteRepayPlan" parameterType="java.util.Map">
+
+    DELETE
+    FROM
+        bh_total_repay_plan
+    WHERE
+        (ORDER_NO, TERM_NO) IN (
+            SELECT
+                ORDER_NO,
+                TERM_NO
+            FROM
+                bh_total_repay_plan_${tableName}
+        )
+
+    </delete>
+
+    <insert id="insertRepayPlan" parameterType="java.util.Map">
+
+    INSERT INTO bh_total_repay_plan (
+        ORDER_NO,
+        TERM_NO,
+        TARGET_REPAYMENT_DATE,
+        PERIOD_DATE,
+        REPAYMENT_AMT,
+        REPAYMENT_INTEREST,
+        REPAYMENT_DUE_INTEREST,
+        PAY_OFF_FLAG,
+        INPUT_DATE
+    ) SELECT
+        ORDER_NO,
+        TERM_NO,
+        TARGET_REPAYMENT_DATE,
+        PERIOD_DATE,
+        REPAYMENT_AMT,
+        REPAYMENT_INTEREST,
+        REPAYMENT_DUE_INTEREST,
+        PAY_OFF_FLAG,
+        ${inputDate} AS INPUT_DATE
+    FROM
+        bh_total_repay_plan_${tableName}
+
+    </insert>
 
 </mapper>

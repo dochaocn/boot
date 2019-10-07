@@ -12,13 +12,13 @@ debug：当此属性设置为true时，将打印出logback内部日志信息，�
 -->
 <configuration>
 
-    <springProperty name="log.path" source="log.path" defaultValue="logs/"/>
+    <springProperty name="log.path" source="log.path" defaultValue="../logs/"/>
     <springProperty name="log.base" source="log.base" defaultValue="rps"/>
     <springProperty name="log.level" source="log.level" defaultValue="info"/>
     <springProperty name="max.size" source="log.size" defaultValue="100MB"/>
     <springProperty name="max.live" source="log.live" defaultValue="10"/>
 
-    <contextName>consumer</contextName>
+    <contextName>rps</contextName>
 
     <!-- appender 定义格式化日志输出, name和class属性指定输出策略:控制台输出策略和文件输出策略  -->
     <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
@@ -42,6 +42,26 @@ debug：当此属性设置为true时，将打印出logback内部日志信息，�
             <charset>utf-8</charset>
         </encoder>
     </appender>
+    <appender name="file.debug" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${log.path}/${log.base}/${log.base}_debug.log</File>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>${log.path}/${log.base}/${log.base}_debug_%d{yyyy-MM-dd}.%i.log.zip</FileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>${max.size}</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <maxHistory>${max.live}</maxHistory>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%date{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread]  %logger{56}.%method\(\): - %msg%n
+            </pattern>
+            <charset>utf-8</charset>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>DEBUG</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
     <appender name="file.info" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <File>${log.path}/${log.base}/${log.base}_info.log</File>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
@@ -56,8 +76,10 @@ debug：当此属性设置为true时，将打印出logback内部日志信息，�
             </pattern>
             <charset>utf-8</charset>
         </encoder>
-        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
             <level>INFO</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
         </filter>
     </appender>
     <appender name="file.error" class="ch.qos.logback.core.rolling.RollingFileAppender">
@@ -91,8 +113,9 @@ debug：当此属性设置为true时，将打印出logback内部日志信息，�
     <root level="${log.level}">
         <appender-ref ref="stdout"/>
         <appender-ref ref="file.async"/>
-        <appender-ref ref="file.error"/>
+        <appender-ref ref="file.debug"/>
         <appender-ref ref="file.info"/>
+        <appender-ref ref="file.error"/>
     </root>
 
 </configuration>

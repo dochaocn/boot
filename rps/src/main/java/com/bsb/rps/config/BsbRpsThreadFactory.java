@@ -5,19 +5,17 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class BsbRpsThreadFactory implements ThreadFactory {
     private final ThreadGroup group;
-    private final AtomicInteger threadNumber = new AtomicInteger(1);
-    private final String namePrefix;
+    private final AtomicInteger integer = new AtomicInteger(0);
 
-    public BsbRpsThreadFactory(String namePrefix) {
+    public BsbRpsThreadFactory() {
         SecurityManager s = System.getSecurityManager();
         group = (s != null) ? s.getThreadGroup() :
                 Thread.currentThread().getThreadGroup();
-        this.namePrefix = namePrefix + "-thread-";
     }
 
     public Thread newThread(Runnable r) {
         Thread t = new Thread(group, r,
-                namePrefix + threadNumber.getAndIncrement(),
+                "bsb-rps-" + integer.getAndIncrement(),
                 0);
         if (t.isDaemon())
             t.setDaemon(false);

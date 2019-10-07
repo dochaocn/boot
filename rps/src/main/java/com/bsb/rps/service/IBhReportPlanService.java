@@ -1,7 +1,9 @@
 package com.bsb.rps.service;
 
-import com.bsb.rps.entity.BhReportPlan;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.bsb.rps.entity.BhReportPlan;
+
+import java.util.List;
 
 /**
  * <p>
@@ -12,4 +14,9 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IBhReportPlanService extends IService<BhReportPlan> {
 
+    BhReportPlan getByCreditAccntId(String creditAccntId);
+
+    void putCacheWithOrderNoList(List<String> orderNoList);
+
+    BhReportPlan getByOrderNo(String orderNo);
 }

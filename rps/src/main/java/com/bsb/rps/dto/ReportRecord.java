@@ -1,4 +1,4 @@
-package com.bsb.rps.entity;
+package com.bsb.rps.dto;
 
 import lombok.Data;
 

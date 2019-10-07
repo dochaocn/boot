@@ -166,6 +166,8 @@
         <module>thread</module>
         <module>algorithms</module>
         <module>patterns</module>
+        <module>plus</module>
+        <module>rps</module>
     </modules>
 
 </project>

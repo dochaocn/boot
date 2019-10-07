@@ -1,9 +1,7 @@
 package com.bsb.rps.service;
 
-import com.bsb.rps.entity.BhLogError;
 import com.baomidou.mybatisplus.extension.service.IService;
-
-import java.util.List;
+import com.bsb.rps.entity.BhLogError;
 
 /**
  * <p>

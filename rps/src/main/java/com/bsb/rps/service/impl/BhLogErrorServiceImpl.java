@@ -1,9 +1,9 @@
 package com.bsb.rps.service.impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.bsb.rps.entity.BhLogError;
 import com.bsb.rps.mapper.BhLogErrorMapper;
 import com.bsb.rps.service.IBhLogErrorService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 /**

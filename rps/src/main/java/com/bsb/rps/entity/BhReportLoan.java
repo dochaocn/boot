@@ -1,13 +1,13 @@
 package com.bsb.rps.entity;
 
-import java.math.BigDecimal;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
-import java.io.Serializable;
-import java.util.Date;
-
+import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 import lombok.experimental.Accessors;
+
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * <p>
@@ -165,6 +165,12 @@ public class BhReportLoan implements Serializable {
      */
     @TableField("REPORT_TYPE")
     private String reportType;
+
+    /**
+     * 上报状态
+     */
+    @TableField("REPORT_STATUS")
+    private String reportStatus;
 
     /**
      * 创建时间
