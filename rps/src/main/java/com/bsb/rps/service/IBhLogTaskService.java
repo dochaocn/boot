@@ -14,9 +14,9 @@ public interface IBhLogTaskService extends IService<BhLogTask> {
 
     BhLogTask insert(String taskName);
 
-    boolean updateById(String taskId, String taskStatus);
+    boolean updateById(String taskId, String taskStatus, String taskTime);
 
-    boolean updateErrorById(String taskId);
+    boolean updateErrorById(String taskId, String taskTime);
 
-    boolean updateSuccessById(String taskId);
+    boolean updateSuccessById(String taskId, String taskTime);
 }

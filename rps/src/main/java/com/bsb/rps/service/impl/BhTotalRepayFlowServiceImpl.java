@@ -35,9 +35,11 @@ public class BhTotalRepayFlowServiceImpl extends ServiceImpl<BhTotalRepayFlowMap
         wrapper.eq("PROCESS_STATUS", ProcessStatus.UNPROCESSED.getCode());
         List<BhTotalRepayFlow> repayFlowList = super.list(wrapper);
 
-        List<String> orderNoList = new ArrayList<>();
-        repayFlowList.forEach((repayFlow) -> orderNoList.add(repayFlow.getOrderNo()));
-        reportPlanService.putCacheWithOrderNoList(orderNoList);
+        if (repayFlowList != null && repayFlowList.size() > 0) {
+            List<String> orderNoList = new ArrayList<>();
+            repayFlowList.forEach((repayFlow) -> orderNoList.add(repayFlow.getOrderNo()));
+            reportPlanService.putCacheWithOrderNoList(orderNoList);
+        }
 
         return repayFlowList;
     }

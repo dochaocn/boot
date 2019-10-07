@@ -28,26 +28,28 @@ public class BhLogTaskServiceImpl extends ServiceImpl<BhLogTaskMapper, BhLogTask
         logTask.setTaskStatus(TaskStatus.RUNNING.getCode());
         logTask.setTaskDate(ProcessDateManager.getProcessDate());
         logTask.setTaskName(taskName);
+        logTask.setTaskTime("0");
         boolean flag = super.save(logTask);
         return flag ? logTask : null;
     }
 
     @Override
-    public boolean updateById(String taskId, String taskStatus) {
+    public boolean updateById(String taskId, String taskStatus, String taskTime) {
         UpdateWrapper<BhLogTask> wrapper = new UpdateWrapper<>();
         wrapper.set("TASK_STATUS", taskStatus)
+                .set("TASK_TIME", taskTime)
                 .eq("TASK_ID", taskId);
         return super.update(wrapper);
     }
 
     @Override
-    public boolean updateErrorById(String taskId) {
-        return this.updateById(taskId, TaskStatus.ERROR.getCode());
+    public boolean updateErrorById(String taskId, String taskTime) {
+        return this.updateById(taskId, TaskStatus.ERROR.getCode(), taskTime);
     }
 
     @Override
-    public boolean updateSuccessById(String taskId) {
-        return this.updateById(taskId, TaskStatus.SUCCESS.getCode());
+    public boolean updateSuccessById(String taskId, String taskTime) {
+        return this.updateById(taskId, TaskStatus.SUCCESS.getCode(), taskTime);
     }
 
 }

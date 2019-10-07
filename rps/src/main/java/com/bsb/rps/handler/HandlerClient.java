@@ -14,6 +14,8 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -55,6 +57,7 @@ public class HandlerClient implements ApplicationContextAware {
     // TODO 处理完成后需要进入入库操作,总共包括  total更改标识 + 插入报文数据 + 上报计划更新
     @SuppressWarnings("unchecked")
     private void abstractHandler(TaskName taskName, List<Machining> machiningList, IService service) {
+        Instant start = Instant.now();
         BhLogTask logTask = logTaskService.insert(taskName.getCode());
         List sourceRecordList;
         while (true) {
@@ -80,11 +83,11 @@ public class HandlerClient implements ApplicationContextAware {
             });
             service.updateBatchById(notNeedProcessData); // while循环结束,更新未匹配成功,即不需要加工的记录状态为NOT_NEED
             if (!CountDownManager.await(5, TimeUnit.MINUTES)) { // while每循环一次,主线程等待一次,计数器为0时,继续下次while
-                logTaskService.updateErrorById(logTask.getTaskId());
+                logTaskService.updateErrorById(logTask.getTaskId(), Duration.between(start, Instant.now()).toMillis()+"");
                 throw new ServiceException(taskName.getCode(), "任务执行等待超时...");
             }
         }
-        logTaskService.updateSuccessById(logTask.getTaskId());
+        logTaskService.updateSuccessById(logTask.getTaskId(), Duration.between(start, Instant.now()).toMillis()+"");
     }
 
     @Override
