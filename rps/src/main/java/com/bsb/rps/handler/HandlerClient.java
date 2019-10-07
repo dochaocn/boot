@@ -70,7 +70,7 @@ public class HandlerClient implements ApplicationContextAware {
                 record.setSourceRecord(sourceRecord);
                 boolean matchClassFailFlag = true; // 默认认为记录匹配不上对应执行类;若匹配成功,更改标识并在执行步骤的最后一步进行减少计数器
                 for (Machining machining : machiningList) {
-                    if (machining.judge(record)) {
+                    if (machining.judge(record)) { // TODO 判断出现异常,停止整个过程？ or 继续处理下一条 异常返回false
                         machining.process(record);
                         matchClassFailFlag = false;
                         break;

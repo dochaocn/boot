@@ -14,6 +14,7 @@ public abstract class AbstractStep implements Step {
 
     @Override
     public void process(MachiningRecord input) {
+        // TODO 此处为多线程提交的任务,抛出异常try,后续步骤需不需要执行？？？
         MachiningRecord out = doProcess(input);
         if (nextDecoratorStep != null && out != null)
             nextDecoratorStep.process(out);

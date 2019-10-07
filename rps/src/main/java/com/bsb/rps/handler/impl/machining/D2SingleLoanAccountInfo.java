@@ -27,7 +27,7 @@ public class D2SingleLoanAccountInfo extends AbstractMachining {
     @Override
     public void process(MachiningRecord record) {
         record.setReportType(ReportType.D2);
-        super.stepLine.process(record);
+        super.stepLine.startProcess(record);
     }
 
     @PostConstruct

@@ -28,7 +28,7 @@ public class CL1LoopLoanReceiptInfo extends AbstractMachining {
     @Override
     public void process(MachiningRecord record) {
         record.setReportType(ReportType.CL1);
-        super.stepLine.process(record);
+        super.stepLine.startProcess(record);
     }
 
     @PostConstruct

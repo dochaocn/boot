@@ -42,7 +42,7 @@ public class StepLine {
         this.executionStep();
     }
 
-    public void process(MachiningRecord input) {
+    public void startProcess(MachiningRecord input) {
         Step firstDecoratorStep = decoratorStepList.get(0);
         if (firstDecoratorStep != null)
             firstDecoratorStep.process(input);

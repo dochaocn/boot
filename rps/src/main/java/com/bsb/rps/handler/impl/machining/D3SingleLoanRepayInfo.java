@@ -33,7 +33,7 @@ public class D3SingleLoanRepayInfo extends AbstractMachining {
     @Override
     public void process(MachiningRecord record) {
         record.setReportType(ReportType.D3);
-        super.stepLine.process(record);
+        super.stepLine.startProcess(record);
     }
 
     @PostConstruct

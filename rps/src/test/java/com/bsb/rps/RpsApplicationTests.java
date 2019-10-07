@@ -12,8 +12,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
+import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -66,6 +68,15 @@ public class RpsApplicationTests {
         param.put("tableName", processDate.replaceAll("-", ""));
         param.put("inputDate", "'" + processDate + "'");
         return param;
+    }
+
+
+    @Test
+    public void format() {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        String now = format.format(new Date());
+//        Instant.now()
+        System.out.println(now);
     }
 
 }
