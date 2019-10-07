@@ -1,5 +1,6 @@
 package com.bsb.rps.imports;
 
+import com.bsb.rps.manager.CountDownManager;
 import com.bsb.rps.manager.ProcessDateManager;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationContext;
@@ -23,22 +24,10 @@ public class ImportClient implements ApplicationContextAware {
     private ExecutorService executorService;
 
     public void startImport() {
+        CountDownManager.resetCountDownLatch(importList.size());
         Map<String, String> param = this.getParamMap();
-
-//        importList.forEach(importTask -> importTask.process(param));
-
         importList.forEach(importTask -> executorService.execute(() -> importTask.process(param)));
-
-        // TODO 单元测试 多线程execute提交失效, submit提交并get结果不失效
-//        importList.forEach(importTask -> {
-//            Future<?> future = executorService.submit(() -> importTask.process(param));
-//            try {
-//                future.get();
-//            } catch (Throwable e) {
-//                log.error("", e);
-//            }
-//        });
-
+        CountDownManager.await();
     }
 
     private Map<String, String> getParamMap() {

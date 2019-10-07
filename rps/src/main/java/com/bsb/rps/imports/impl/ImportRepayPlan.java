@@ -1,5 +1,6 @@
 package com.bsb.rps.imports.impl;
 
+import com.bsb.rps.enums.TaskName;
 import com.bsb.rps.imports.Import;
 import com.bsb.rps.mapper.BhTotalRepayPlanMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +21,11 @@ public class ImportRepayPlan implements Import {
         log.info("ImportRepayPlan");
         totalRepayPlanMapper.deleteRepayPlan(paramMap);
         totalRepayPlanMapper.insertRepayPlan(paramMap);
+    }
+
+    @Override
+    public String getImportTaskName() {
+        return TaskName.IMPORT_REPAY_PLAN.getCode();
     }
 
 }

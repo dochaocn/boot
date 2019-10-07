@@ -1,5 +1,6 @@
 package com.bsb.rps.imports.impl;
 
+import com.bsb.rps.enums.TaskName;
 import com.bsb.rps.imports.Import;
 import com.bsb.rps.mapper.BhTotalRepayFlowMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +20,11 @@ public class ImportRepayFlow implements Import {
     public void process(Map<String, String> paramMap) {
         log.info("ImportRepayFlow");
         totalRepayFlowMapper.insertRepayFlow(paramMap);
+    }
+
+    @Override
+    public String getImportTaskName() {
+        return TaskName.IMPORT_REPAY_FLOW.getCode();
     }
 
 }

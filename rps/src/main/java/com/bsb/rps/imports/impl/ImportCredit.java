@@ -1,5 +1,6 @@
 package com.bsb.rps.imports.impl;
 
+import com.bsb.rps.enums.TaskName;
 import com.bsb.rps.imports.Import;
 import com.bsb.rps.mapper.BhTotalCreditMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +21,11 @@ public class ImportCredit implements Import {
         log.info("ImportCredit");
         totalCreditMapper.deleteCredit(paramMap);
         totalCreditMapper.insertCredit(paramMap);
+    }
+
+    @Override
+    public String getImportTaskName() {
+        return TaskName.IMPORT_CREDIT.getCode();
     }
 
 }

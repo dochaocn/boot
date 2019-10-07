@@ -23,6 +23,14 @@ public class CountDownManager {
         return false;
     }
 
+    public static void await() {
+        try {
+            CountDownManager.countDownLatch.await();
+        } catch (InterruptedException e) {
+            log.error("CountDownManager await.", e);
+        }
+    }
+
     public static void countDown() {
         CountDownManager.countDownLatch.countDown();
     }

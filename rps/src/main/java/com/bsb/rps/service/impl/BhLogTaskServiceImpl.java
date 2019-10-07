@@ -9,7 +9,10 @@ import com.bsb.rps.mapper.BhLogTaskMapper;
 import com.bsb.rps.service.IBhLogTaskService;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
+import java.util.Date;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * <p>
@@ -21,14 +24,16 @@ import java.util.UUID;
 @Service
 public class BhLogTaskServiceImpl extends ServiceImpl<BhLogTaskMapper, BhLogTask> implements IBhLogTaskService {
 
+    private final AtomicInteger integer = new AtomicInteger(1);
+
     @Override
     public BhLogTask insert(String taskName) {
         BhLogTask logTask = new BhLogTask();
-        logTask.setTaskId(UUID.randomUUID().toString().substring(0,10));  //TODO 主键生成
+        logTask.setTaskId(integer.getAndIncrement() + "");  //TODO 主键生成
         logTask.setTaskStatus(TaskStatus.RUNNING.getCode());
         logTask.setTaskDate(ProcessDateManager.getProcessDate());
         logTask.setTaskName(taskName);
-        logTask.setTaskTime("0");
+        logTask.setTaskTime("0ms");
         boolean flag = super.save(logTask);
         return flag ? logTask : null;
     }
@@ -38,6 +43,7 @@ public class BhLogTaskServiceImpl extends ServiceImpl<BhLogTaskMapper, BhLogTask
         UpdateWrapper<BhLogTask> wrapper = new UpdateWrapper<>();
         wrapper.set("TASK_STATUS", taskStatus)
                 .set("TASK_TIME", taskTime)
+                .set("BD_UPDATE_DATETIME", Instant.now())
                 .eq("TASK_ID", taskId);
         return super.update(wrapper);
     }

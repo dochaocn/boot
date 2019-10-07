@@ -1,5 +1,6 @@
 package com.bsb.rps.imports.impl;
 
+import com.bsb.rps.enums.TaskName;
 import com.bsb.rps.imports.Import;
 import com.bsb.rps.mapper.BhTotalLoanMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +21,11 @@ public class ImportLoan implements Import {
         log.info("ImportLoan");
         totalLoanMapper.deleteLoan(paramMap);
         totalLoanMapper.insertLoan(paramMap);
+    }
+
+    @Override
+    public String getImportTaskName() {
+        return TaskName.IMPORT_LOAN.getCode();
     }
 
 }
