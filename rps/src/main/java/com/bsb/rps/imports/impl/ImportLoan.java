@@ -18,7 +18,6 @@ public class ImportLoan implements Import {
 
     @Override
     public void process(Map<String, String> paramMap) {
-        log.info("ImportLoan");
         totalLoanMapper.deleteLoan(paramMap);
         totalLoanMapper.insertLoan(paramMap);
     }

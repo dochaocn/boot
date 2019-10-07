@@ -18,7 +18,6 @@ public class ImportCust implements Import {
 
     @Override
     public void process(Map<String, String> paramMap) {
-        log.info("ImportCust");
         totalCustMapper.deleteCust(paramMap);
         totalCustMapper.insertCust(paramMap);
     }

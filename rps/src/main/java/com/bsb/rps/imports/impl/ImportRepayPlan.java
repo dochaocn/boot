@@ -18,7 +18,6 @@ public class ImportRepayPlan implements Import {
 
     @Override
     public void process(Map<String, String> paramMap) {
-        log.info("ImportRepayPlan");
         totalRepayPlanMapper.deleteRepayPlan(paramMap);
         totalRepayPlanMapper.insertRepayPlan(paramMap);
     }

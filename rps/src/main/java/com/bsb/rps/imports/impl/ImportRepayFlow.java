@@ -18,7 +18,6 @@ public class ImportRepayFlow implements Import {
 
     @Override
     public void process(Map<String, String> paramMap) {
-        log.info("ImportRepayFlow");
         totalRepayFlowMapper.insertRepayFlow(paramMap);
     }
 

@@ -18,7 +18,6 @@ public class ImportCredit implements Import {
 
     @Override
     public void process(Map<String, String> paramMap) {
-        log.info("ImportCredit");
         totalCreditMapper.deleteCredit(paramMap);
         totalCreditMapper.insertCredit(paramMap);
     }
