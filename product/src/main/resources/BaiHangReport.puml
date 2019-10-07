@@ -1,0 +1,39 @@
+@startuml
+enum StrategyEnum {
+D1
+D2
+D3
+}
+
+interface Runnable
+
+interface TaskStepService {
+    process()
+    nextStep()
+}
+
+interface StrategyService {
+    isThis()
+    execute()
+}
+
+class ReadRecord
+class ExecuteRecord {
+    List<StrategyService> strategyServiceList
+}
+class ReportRecord
+class D1Strategy
+class D2Strategy
+class D3Strategy
+
+TaskStepService <|-- ReadRecord
+TaskStepService <|-- ExecuteRecord
+TaskStepService <|-- ReportRecord
+
+StrategyService <|-- D1Strategy
+StrategyService <|-- D2Strategy
+StrategyService <|-- D3Strategy
+
+Runnable <|-- TaskStepService
+
+@enduml

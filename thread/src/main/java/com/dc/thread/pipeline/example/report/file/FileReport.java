@@ -7,10 +7,6 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 public class FileReport implements ReportType {
-    @Override
-    public boolean isType(Object object) {
-        return false;
-    }
 
     @Override
     public Object execute(Object body, String url) {

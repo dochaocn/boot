@@ -92,12 +92,12 @@ public class RequestController implements ApplicationContextAware {
         String url = requestBody.getUrl();
         for (int j = 0; j < 10000; j++) {
 
-            list.forEach(body -> {
-                reportTypeList.forEach(type -> {
-                    if (type.isType(reportType))
-                        executorService.execute(() -> type.execute(body, url));
-                });
-            });
+//            list.forEach(body -> {
+//                reportTypeList.forEach(type -> {
+//                    if (type.isType(reportType))
+//                        executorService.execute(() -> type.execute(body, url));
+//                });
+//            });
 
         }
 

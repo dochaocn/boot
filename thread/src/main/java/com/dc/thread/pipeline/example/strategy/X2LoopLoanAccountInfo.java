@@ -13,17 +13,12 @@ public class X2LoopLoanAccountInfo extends AbstractReportStrategy {
         return "X2LoopLoanAccountInfo".equals(str);
     }
 
-    @Override
-    public void execute(Object object) {
-        super.simplePipeline.process(object);
-    }
-
     @PostConstruct
     public void buildStage() {
-        super.stageList.add(super.stageOne);
-        super.stageList.add(super.stageTwo);
-        super.stageList.add(super.stageThree);
-        super.stageList.add(super.stageFour);
+        super.stageList.add("stageTwo");
+        super.stageList.add("stageOne");
+        super.stageList.add("stageThree");
+        super.stageList.add("stageFour");
         super.useAsyncOrSync();
     }
 }

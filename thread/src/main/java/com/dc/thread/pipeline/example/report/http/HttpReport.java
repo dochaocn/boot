@@ -15,13 +15,8 @@ public class HttpReport implements ReportType {
     private RestTemplate restTemplate;
 
     @Override
-    public boolean isType(Object object) {
-        return "http".equals(object);
-    }
-
-    @Override
     public Object execute(Object body, String url){
-        ResponseEntity<Object> response = restTemplate.postForEntity(url, body, Object.class);
+        ResponseEntity<String> response = restTemplate.postForEntity(url, body, String.class);
         return new ResponseMessage(response.getStatusCode(), response.getBody());
     }
 
