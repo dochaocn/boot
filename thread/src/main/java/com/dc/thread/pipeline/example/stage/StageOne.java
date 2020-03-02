@@ -12,7 +12,11 @@ public class StageOne extends AbstractPipe {
     @Override
     public Object doProcess(Object input) {
         try {
-            Thread.sleep(sleepTime);
+            Thread.sleep(20);
+            int sum = 0;
+            for (int i = 0; i < 33333333; i++) {
+                sum = sum + i;
+            }
         } catch (InterruptedException e) {
             log.error("", e);
         }

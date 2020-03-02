@@ -16,13 +16,17 @@ public class StageDiff extends AbstractPipe{
 
     @Override
     public Object doProcess(Object input) {
-        try {
-            stageFour.doProcess(input);
-            Thread.sleep(sleepTime);
-        } catch (InterruptedException e) {
-            log.error("", e);
-        }
-        log.info("StageFour:" + input.toString());
+//        try {
+//            stageFour.doProcess(input);
+//            Thread.sleep(50);
+//            int sum = 0;
+//            for (int i = 0; i < 99999999; i++) {
+//                sum = sum + i;
+//            }
+//        } catch (InterruptedException e) {
+//            log.error("", e);
+//        }
+//        log.info("StageFour:" + input.toString());
         return "StageFour-" + input.toString();
     }
 }

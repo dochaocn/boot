@@ -37,7 +37,7 @@ public class ThreadApplication {
     public ExecutorService executorService() {
         return new ThreadPoolExecutor(1,
                 maxPoolSize,
-                60, TimeUnit.MINUTES,
+                1, TimeUnit.MINUTES,
                 new SynchronousQueue<>(), new MyThreadFactory("dc-step"), new ThreadPoolExecutor.CallerRunsPolicy());
     }
 

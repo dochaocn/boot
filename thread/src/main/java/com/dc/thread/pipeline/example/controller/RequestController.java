@@ -16,7 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.*;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 
 @Slf4j
@@ -25,36 +28,47 @@ public class RequestController implements ApplicationContextAware {
 
     private final List<AbstractReportStrategy> strategyList = new ArrayList<>();
     private final List<ReportType> reportTypeList = new ArrayList<>();
-
-    @Value("${task.num}")
-    private int taskNum;
-
     @Resource
     private ExecutorService executorService;
     @Resource
     private BaseInfoService baseInfoService;
 
+    private static CountDownLatch countDownLatch;
+
+    public static void countDown() {
+        countDownLatch.countDown();
+    }
+
+    @Value("${task.num}")
+    private int taskNum;
+
     @RequestMapping("/batch")
     @ResponseBody
     public String batch() {
+        Instant now = Instant.now();
+        countDownLatch = new CountDownLatch(2 * taskNum);
 
-        new Thread(() -> {
-
-            for (int i = 0; i < taskNum; i++) {
-                int finalI = i;
-                executorService.execute(() -> {
-                    strategyList.forEach(strategy -> {
-                        if (strategy.isThis("X2LoopLoanAccountInfo")) {
-                            strategy.execute("Task-X2-" + finalI); // 只负责调起第一步
-                        }
-                        if (strategy.isThis("D2SingleLoanAccountInfo")) {
-                            strategy.execute("Task-D2-" + finalI); // 只负责调起第一步
-                        }
-                    });
+        for (int i = 0; i < taskNum; i++) {
+            int finalI = i;
+            executorService.execute(() -> {
+                strategyList.forEach(strategy -> {
+                    if (strategy.isThis("X2LoopLoanAccountInfo")) {
+                        strategy.execute("Task-X2-" + finalI); // 只负责调起第一步
+                    }
+                    if (strategy.isThis("D2SingleLoanAccountInfo")) {
+                        strategy.execute("Task-D2-" + finalI); // 只负责调起第一步
+                    }
                 });
-            }
+            });
+        }
 
-        }, "提交任务").start();
+        try {
+            countDownLatch.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println(Duration.between(now, Instant.now()).toMillis());
 
         return "提交任务成功,执行中...";
     }
