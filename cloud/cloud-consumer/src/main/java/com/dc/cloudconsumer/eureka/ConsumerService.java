@@ -7,10 +7,11 @@ import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.annotation.Resource;
 import java.util.Date;
+
+import static org.springframework.web.bind.annotation.RequestMethod.*;
 
 @Api
 @Slf4j
@@ -25,7 +26,7 @@ public class ConsumerService {
      * @return String
      */
     @ApiOperation(value = "服务调用", httpMethod = "POST")
-    @RequestMapping(value = "/getString",method = RequestMethod.POST)
+    @RequestMapping(value = "/getString",method = POST)
     public ResponseDto getString(RequestModel requestModel){
         log.info("swagger");
         ResponseDto responseDto = new ResponseDto();
@@ -39,14 +40,14 @@ public class ConsumerService {
         return responseDto;
     }
 
-    @RequestMapping(value = "/feign",method = RequestMethod.POST)
+    @RequestMapping(value = "/feign",method = POST)
     @HystrixCommand(fallbackMethod = "errorFallBack")
     public String feign(){
         log.info("feign");
         return feignService.getString();
     }
 
-    @RequestMapping(value = "/fall",method = RequestMethod.POST)
+    @RequestMapping(value = "/fall",method = POST)
     @HystrixCommand(fallbackMethod = "errorFallBack")
     public String fallBack(){
         log.info("fallBack");
@@ -67,7 +68,7 @@ public class ConsumerService {
     @Resource
     private FeignServiceOther feignServiceOther;
 
-    @RequestMapping(value = "/feign1",method = RequestMethod.POST)
+    @RequestMapping(value = "/feign1",method = POST)
     @HystrixCommand(fallbackMethod = "errorFallBack")
     public String feign1(){
         log.info("feign1");

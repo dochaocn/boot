@@ -17,12 +17,14 @@ import javax.validation.constraints.NotEmpty;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import static org.springframework.web.bind.annotation.RequestMethod.*;
+
 @Slf4j
 @CloudComponent(mapping = "/validate")
 @Validated
 public class ValidateController {
 
-    @RequestMapping(path = "/order", method = RequestMethod.GET)
+    @RequestMapping(path = "/order", method = GET)
     public ResponseModel validate(@Validated Order order){
         order.setId(10000000000L);
         order.setName("dc");
@@ -30,12 +32,12 @@ public class ValidateController {
         return ModelFactory.newSuccessResponseModel().setMsg("成功").setData(order);
     }
 
-    @RequestMapping(path = "/order1", method = RequestMethod.GET)
+    @RequestMapping(path = "/order1", method = GET)
     public Long validate1(@NotBlank String name, @Max(value = 9999L) Long id){
         return 10000000000L;
     }
 
-    @RequestMapping(path = "/order2", method = RequestMethod.GET)
+    @RequestMapping(path = "/order2", method = GET)
     public ResponseModel order2(@NotBlank String name, @Max(value = 9999L) Long id){
         Order order = new Order();
 //        int i = 1 / 0;
