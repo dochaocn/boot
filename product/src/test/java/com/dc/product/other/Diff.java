@@ -14,18 +14,22 @@ public class Diff {
     public static void main(String[] files) throws IOException {
         long millis = System.currentTimeMillis();
 
-        String proPath = "C://Users/Dc/Desktop/diff/" + "T10151920H00012019070221000.txt";
-        String newPath = "C://Users/Dc/Desktop/diff/" + "N10151920H00012019070301000.txt";
-        String outPath = "C://Users/Dc/Desktop/diff/diff.txt";
+        String proPath = "C://Users/Dc/Desktop/diff/" + files[0] + ".txt";
+        String newPath = "C://Users/Dc/Desktop/diff/" + files[1] + ".txt";;
+        String outPath = "C://Users/Dc/Desktop/diff/" + files[2] + ".txt";;
         List<String> listPro = new ArrayList<>();
         List<String> listNew = new ArrayList<>();
         Map<String,List<String>> diffMap = new HashMap<>();
 
         readFile(listPro,listNew,proPath,newPath);
+        log.info("耗时={}",System.currentTimeMillis() - millis);
+        compareNoNum(listPro, listNew);
+        log.info("耗时={}",System.currentTimeMillis() - millis);
         listPro.removeAll(listNew);
         toDiffMap(listPro,listNew,diffMap);
+        log.info("耗时={}",System.currentTimeMillis() - millis);
         writeFile(diffMap,outPath);
-
+        log.info("耗时={}",System.currentTimeMillis() - millis);
         log.info("耗时={}",System.currentTimeMillis() - millis);
     }
 
@@ -36,10 +40,43 @@ public class Diff {
             diffList = new ArrayList<>(2);
             accountNo = linePro.substring(22,48);
             for (String lineNew:listNew) {
-                if (accountNo.equals(lineNew.substring(22,48))) {
-                    if (lineNew.contains("B"))
+                String accountNoNew = lineNew.substring(22,48);
+                if (accountNo.equals(accountNoNew)) {
+                    // 五级分类 生产有误 以新的为准
+                    if (!lineNew.substring(229,230).equals(linePro.substring(229,230))) {
+                        if (lineNew.substring(0,228).equals(linePro.substring(0,228))
+                                && lineNew.substring(231).equals(linePro.substring(231))) {
+                            break;
+                        }
+                    }
+
+                    if (lineNew.substring(0,142).equals(linePro.substring(0,142))
+                            && lineNew.substring(153,174).equals(linePro.substring(153,174))
+                            && lineNew.substring(185).equals(linePro.substring(185))) {
                         break;
+                    }
+
+//                    if (!lineNew.substring(230,231).equals(linePro.substring(230,231))) {
+//                        if (lineNew.substring(0,229).equals(linePro.substring(0,229))
+//                                && lineNew.substring(232).equals(linePro.substring(232))) {
+//                            break;
+//                        }
+//                    }
+//                    if (lineNew.contains("G")||linePro.contains("G")) {
+//                        diffList.add(linePro);
+//                        diffList.add(lineNew);
+//                        break;
+//                    }
+                    // 不比较客户信息
+                    if (lineNew.contains("B")||linePro.contains("B")){
+                        if (lineNew.substring(10,265).equals(linePro.substring(10,265)))
+                            break;
+                    }
+                    // 最后一位为数字
 //                    if (!lineNew.substring(254, 255).matches("^\\d+$"))
+//                        break;
+                    // 特殊交易 安硕系统bug
+//                    if (lineNew.contains("G"))
 //                        break;
                     diffList.add(linePro);
                     diffList.add(lineNew);
@@ -50,8 +87,25 @@ public class Diff {
         }
     }
 
-    private static void writeFile(Map<String,List<String>> diffMap,String outPath) throws IOException {
+    private static void compareNoNum(List<String> listPro, List<String> listNew) {
+        List<String> proNo = new ArrayList<>();
+        List<String> newNo = new ArrayList<>();
+        listPro.forEach(no -> proNo.add(no.substring(22,48)));
+        listNew.forEach(no -> newNo.add(no.substring(22,48)));
+        if (proNo.size() > newNo.size()) {
+            proNo.removeAll(newNo);
+            System.out.println("proNo 多");
+            proNo.forEach(System.out::println);
+        } else if (proNo.size() < newNo.size()){
+            newNo.removeAll(proNo);
+            System.out.println("newNo 多");
+            newNo.forEach(System.out::println);
+        } else {
+            System.out.println("proNo 与 newNo 一样");
+        }
+    }
 
+    private static void writeFile(Map<String,List<String>> diffMap,String outPath) throws IOException {
         BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(outPath));
         String flag;
         for (String accountNo:diffMap.keySet()) {
@@ -66,19 +120,7 @@ public class Diff {
         outputStream.close();
     }
 
-    private static void writeFile(List<String> listDiff,String outPath) throws IOException {
-
-        BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(outPath));
-        for (String line:listDiff) {
-//            String status = line.substring(254, 255);
-//            if ("N".equals(status) || "*".equals(status) || "C".equals(status))
-            outputStream.write((line.substring(22,48)+"\n").getBytes());
-        }
-        outputStream.close();
-    }
-
     private static void readFile(List<String> listPro,List<String> listNew,String proPath,String newPath) throws IOException {
-
         BufferedReader readerPro = new BufferedReader(new FileReader(proPath));
         BufferedReader readerNew = new BufferedReader(new FileReader(newPath));
         String line;
@@ -88,6 +130,15 @@ public class Diff {
             listNew.add(line);
         readerPro.close();
         readerNew.close();
+    }
+
+
+    private static void writeFile(List<String> listDiff,String outPath) throws IOException {
+        BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(outPath));
+        for (String line:listDiff) {
+            outputStream.write((line.substring(22,48)+"\n").getBytes());
+        }
+        outputStream.close();
     }
 
     private static List<String> diff(List<String> listPro,List<String> listNew) {

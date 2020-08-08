@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bsb.rps.mapper.BhTotalRepayFlowMapper">
+
+    <insert id="insertRepayFlow" parameterType="java.util.Map">
+
+    INSERT INTO bh_total_repay_flow (
+        ORDER_NO,
+        TERM_NO,
+        REAL_REPAYMENT_DATE,
+        STATUS_CONFIRM_AT,
+        REAL_REPAYMENT_AMT,
+        REAL_REPAYMENT_INTEREST,
+        REAL_REPAYMENT_DUE_INTEREST,
+        COMPENSATORY_FLAG,
+        INPUT_DATE,
+        PROCESS_STATUS
+    ) SELECT
+        ORDER_NO,
+        TERM_NO,
+        REAL_REPAYMENT_DATE,
+        STATUS_CONFIRM_AT,
+        REAL_REPAYMENT_AMT,
+        REAL_REPAYMENT_INTEREST,
+        REAL_REPAYMENT_DUE_INTEREST,
+        COMPENSATORY_FLAG,
+        ${inputDate} AS INPUT_DATE,
+        '1' AS PROCESS_STATUS
+    FROM
+        bh_total_repay_flow_${tableName} t
+    WHERE
+        NOT EXISTS (
+            SELECT
+                ORDER_NO,
+                TERM_NO,
+                REAL_REPAYMENT_DATE
+            FROM
+                bh_total_repay_flow f
+            WHERE
+                t.ORDER_NO = f.ORDER_NO
+            AND t.TERM_NO = f.TERM_NO
+            AND t.REAL_REPAYMENT_DATE = f.REAL_REPAYMENT_DATE
+        )
+
+    </insert>
+
+</mapper>

@@ -1,5 +1,10 @@
 package com.dc.thread.assembly;
 
+/**
+ * 流水线工作
+ *  每一个线程只专注于做一件事或只加工一步，节约时间
+ */
+
 public class MakeFactory {
 
     public static void main(String[] args) {

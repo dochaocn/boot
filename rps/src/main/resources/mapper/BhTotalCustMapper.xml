@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bsb.rps.mapper.BhTotalCustMapper">
+
+    <delete id="deleteCust" parameterType="java.util.Map">
+
+    DELETE
+    FROM
+        bh_total_cust
+    WHERE
+        CUST_NO IN (
+            SELECT
+                CUST_NO
+            FROM
+                bh_total_cust_${tableName}
+        )
+
+    </delete>
+
+    <insert id="insertCust" parameterType="java.util.Map">
+
+    INSERT INTO bh_total_cust (
+        CUST_NO,
+        NAME,
+        PID,
+        MOBILE,
+        INPUT_DATE
+    ) SELECT
+        CUST_NO,
+        NAME,
+        PID,
+        MOBILE,
+        ${inputDate} AS INPUT_DATE
+    FROM
+        bh_total_cust_${tableName}
+
+    </insert>
+
+</mapper>

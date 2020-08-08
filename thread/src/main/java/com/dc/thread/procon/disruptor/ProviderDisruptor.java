@@ -7,7 +7,7 @@ import com.lmax.disruptor.RingBuffer;
 import java.nio.ByteBuffer;
 import java.time.LocalDateTime;
 
-public class ProviderDisruptor implements Runnable{
+public class ProviderDisruptor{
     private final RingBuffer<Message> ringBuffer;
 
     public ProviderDisruptor(RingBuffer<Message> ringBuffer) {
@@ -26,7 +26,6 @@ public class ProviderDisruptor implements Runnable{
         System.out.println("开始投递---" + Thread.currentThread().getName() + " :: " + m.toString());
     }
 
-    @Override
     public void run() {
         ByteBuffer bb = ByteBuffer.allocate(8);
         for (long i = 0; true; i++) {

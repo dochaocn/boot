@@ -1,0 +1,9 @@
+@startuml
+
+
+interface Import {
+process()
+}
+
+
+@enduml
