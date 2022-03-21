@@ -17,7 +17,7 @@
 
     <properties>
         <api.boot.version>1.0-SNAPSHOT</api.boot.version>
-        <dubbo.version>2.6.2</dubbo.version>
+        <dubbo.version>2.6.9</dubbo.version>
         <dubbo.boot.version>0.2.1.RELEASE</dubbo.boot.version>
         <jest.version>2.0.4</jest.version>
         <mysql.version>5.1.34</mysql.version>
